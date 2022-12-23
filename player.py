@@ -7,9 +7,8 @@ from config import *
 
 class Player:
     def __init__(self):
-        self.x = half_width
-        self.y = half_height
-        self.angle = 0
+        self.x, self.y = player_pos
+        self.angle = player_angle
         self.delta = 0
         self.speed = 500
 

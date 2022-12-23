@@ -1,3 +1,5 @@
+import math
+
 import pygame
 import time
 from math import *
@@ -51,6 +53,6 @@ def ray_casting(display, player):
         ray_size = min(vd, hd)
         ray_size *= cos(player.angle - cur_angle)
         height_c = coefficient / (ray_size + 0.0001)
-        c = 255 / (1 + ray_size**2*0.00001)
-        color = (c, c, c)
+        c = 255 / (1 + ray_size ** 2 * 0.00001)
+        color = (c, c // 1.5, c // 1.5)
         pygame.draw.rect(display, color, (ray * scale, half_height - height_c // 2, scale, height_c))
