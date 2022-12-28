@@ -1,43 +1,89 @@
-import pygame
-from math import *
-
-from config import *
 from function import *
 from player import Player
 from drawing import Drawing
 from settings import *
+import pygame_menu
 
-pygame.font.init()
-screen = pygame.display.set_mode((width, height))
-sc_map = pygame.Surface((width // map_scale, height // map_scale))
+pygame.init()
+sc = pygame.display.set_mode((WIDTH, HEIGHT))
+sc_map = pygame.Surface((WIDTH // MAP_SCALE, HEIGHT // MAP_SCALE))
 clock = pygame.time.Clock()
 player = Player()
-drawing = Drawing(screen, sc_map)
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            quit()
-    player.delta = delta_time()
-    player.move()
-    screen.fill(pygame.Color('black'))
+drawing = Drawing(sc, sc_map)
+
+# scene
+current_scene = None
+
+image = pygame.image.load('img/Сцена1.jpg')
+image2 = pygame.image.load('img/Заставка.jpg')
 
 
-    drawing.backgroun()
-    drawing.world(player)
-    drawing.fps(clock)
-    drawing.mini_map(player)
+sprite = pygame.sprite.Sprite()
+sprite.image = image2
+sprite.rect = image2.get_rect()
 
-    ray_casting(screen, player)
+font = pygame.font.SysFont('Arial', 50)
+text = font.render('Press to Start', True, (255, 255, 255))
 
-    # pygame.draw.circle(screen, red, (int(player.x), int(player.y)), 12)
-    # pygame.draw.line(screen, yellow, (player.x, player.y), (player.x + width * cos(player.angle),
-    #                                                         player.y + width * sin(player.angle)), 2)
-    #
-    # for x, y in block_map:
-    #     pygame.draw.rect(screen, green, (x, y, tile, tile), 2)
+def swetch_scene(scene):
+    global current_scene
+    current_scene = scene
 
-    pygame.display.set_caption("FPS " + str(int(clock.get_fps())))
-    clock.tick(0)
-    pygame.display.flip()
+def scene_1():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                swetch_scene(None)
+            if event.type == pygame.KEYDOWN:
+                swetch_scene(scene_2)
+                running = False
+        sc.blit(image, (0, 0))
+        pygame.display.flip()
 
+
+def scene_2():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                swetch_scene(None)
+            if event.type == pygame.KEYDOWN:
+                swetch_scene(scene_3)
+                running = False
+
+        sprite.image.blit(text, (440, 700))
+
+        group = pygame.sprite.Group()
+        group.add(sprite)
+        group.draw(sc)
+
+        pygame.display.flip()
+
+def scene_3():
+    # >>>>>>> origin/main
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                swetch_scene(None)
+        player.movement()
+        sc.fill(BLACK)
+
+        drawing.background(player.angle)
+        drawing.world(player.pos, player.angle)
+        drawing.fps(clock)
+        drawing.mini_map(player)
+
+        pygame.display.flip()
+        clock.tick()
+    # >>>>>>> origin/main
+
+
+swetch_scene(scene_1)
+while current_scene is not None:
+    current_scene()
