@@ -1,19 +1,45 @@
-width = 1200
-height = 800
-half_width = width // 2
-half_height = height // 2
-FPS_POS = (width - 65, 5)
-block_size = 100
-tile = 100
-player_pos = (half_width, half_height)
-player_angle = 0
+import math
+
+## сделал константы большими буквами
+
+# game settings
+WIDTH = 1200
+HEIGHT = 800
+HALF_WIDTH = WIDTH // 2
+HALF_HEIGHT = HEIGHT // 2
+FPS = 60
+TILE = 100
+FPS_POS = (WIDTH - 65, 5)
 
 # minimap settings
-map_scale = 5
-map_tile = tile // map_scale
-map_pos = (0, height - height // map_scale)
+MAP_SCALE = 5
+MAP_TILE = TILE // MAP_SCALE
+MAP_POS = (0, HEIGHT - HEIGHT // MAP_SCALE)
 
-# color
-green = (0, 100, 0)
-red = (200, 0, 0)
-yellow = (250, 250, 0)
+# ray casting settings
+FOV = math.pi / 3
+HALF_FOV = FOV / 2
+NUM_RAYS = 300
+MAX_DEPTH = 800
+DELTA_ANGLE = FOV / NUM_RAYS
+DIST = NUM_RAYS / (2 * math.tan(HALF_FOV))
+PROJ_COEFF = 3 * DIST * TILE
+SCALE = WIDTH // NUM_RAYS
+
+# texture settings (1200 x 1200)
+TEXTURE_WIDTH = 1200
+TEXTURE_HEIGHT = 1200
+TEXTURE_SCALE = TEXTURE_WIDTH // TILE
+
+# player settings
+player_pos = (HALF_WIDTH, HALF_HEIGHT)
+player_angle = 0
+player_speed = 1.5
+
+# colors
+BLACK = (0, 0, 0)
+RED = (220, 0, 0)
+DARKGRAY = (40, 40, 40)
+SKYBLUE = (0, 186, 255)
+YELLOW = (220, 220, 0)
+SANDY = (244, 164, 96)

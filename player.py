@@ -1,37 +1,34 @@
-from math import *
-
-import pygame.key
-
-from config import *
+from settings import *
+import pygame
+import math
 
 
 class Player:
     def __init__(self):
         self.x, self.y = player_pos
         self.angle = player_angle
-        self.delta = 0
-        self.speed = 500
 
-    def move(self):
-        key = pygame.key.get_pressed()
-        cos_t, sin_t = cos(self.angle), sin(self.angle)
+    @property  # всторенный декоратор python, теперь pos яаляется объект-свойством
+    def pos(self):
+        return self.x, self.y
 
-        if key[pygame.K_LEFT]:
-            self.angle -= 0.3 * self.delta * 13
-        if key[pygame.K_RIGHT]:
-            self.angle += 0.3 * self.delta * 13
-
-        if key[pygame.K_w]:
-            self.x += cos_t * self.delta * self.speed
-            self.y += sin_t * self.delta * self.speed
-        if key[pygame.K_s]:
-            self.x -= cos_t * self.delta * self.speed
-            self.y -= sin_t * self.delta * self.speed
-        if key[pygame.K_a]:
-            self.x += sin_t * self.delta * self.speed
-            self.y -= cos_t * self.delta * self.speed
-        if key[pygame.K_d]:
-            self.x -= sin_t * self.delta * self.speed
-            self.y += cos_t * self.delta * self.speed
-
-
+    def movement(self):
+        sin_a = math.sin(self.angle)
+        cos_a = math.cos(self.angle)
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            self.x += player_speed * cos_a
+            self.y += player_speed * sin_a
+        if keys[pygame.K_s]:
+            self.x += -player_speed * cos_a
+            self.y += -player_speed * sin_a
+        if keys[pygame.K_a]:
+            self.x += player_speed * sin_a
+            self.y += -player_speed * cos_a
+        if keys[pygame.K_d]:
+            self.x += -player_speed * sin_a
+            self.y += player_speed * cos_a
+        if keys[pygame.K_LEFT]:
+            self.angle -= 0.015
+        if keys[pygame.K_RIGHT]:
+            self.angle += 0.015

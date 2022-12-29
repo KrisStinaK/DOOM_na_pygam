@@ -1,4 +1,4 @@
-from function import *
+import pygame
 from player import Player
 from drawing import Drawing
 from settings import *
@@ -15,16 +15,9 @@ drawing = Drawing(sc, sc_map)
 # scene
 current_scene = None
 
-image = pygame.image.load('img/Сцена1.jpg')
-image2 = pygame.image.load('img/Заставка.jpg')
-
-
-sprite = pygame.sprite.Sprite()
-sprite.image = image2
-sprite.rect = image2.get_rect()
-
-font = pygame.font.SysFont('Arial', 50)
-text = font.render('Press to Start', True, (255, 255, 255))
+image_scene_1 = pygame.image.load('img/Сцена1.jpg')
+image_scene_2 = pygame.image.load('img/Сцена2.jpg')
+image_scene_3 = pygame.image.load('img/Сцена3.jpg')
 
 def swetch_scene(scene):
     global current_scene
@@ -40,7 +33,7 @@ def scene_1():
             if event.type == pygame.KEYDOWN:
                 swetch_scene(scene_2)
                 running = False
-        sc.blit(image, (0, 0))
+        sc.blit(image_scene_1, (0, 0))
         pygame.display.flip()
 
 
@@ -55,15 +48,24 @@ def scene_2():
                 swetch_scene(scene_3)
                 running = False
 
-        sprite.image.blit(text, (440, 700))
-
-        group = pygame.sprite.Group()
-        group.add(sprite)
-        group.draw(sc)
+        sc.blit(image_scene_2, (0, 0))
 
         pygame.display.flip()
 
 def scene_3():
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+                swetch_scene(None)
+            if event.type == pygame.KEYDOWN:
+                swetch_scene(main_stage)
+                running = False
+        sc.blit(image_scene_3, (0, 0))
+        pygame.display.flip()
+
+def main_stage():
     # >>>>>>> origin/main
     running = True
     while running:
