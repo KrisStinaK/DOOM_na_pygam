@@ -12,19 +12,22 @@ class Drawing:
         # загрузка текстур (можно добавить больше, но потом нужно изменить цифру на карте)
         # под S небо (для него не нужно менять карту)
         self.textures = {'1': pygame.image.load('img/board.jpg').convert(),
-                         '2': pygame.image.load('img/stone.jpg').convert(),
+                         '2': pygame.image.load('img/стена3.png').convert(),
                          'S': pygame.image.load('img/sky.png').convert()
                          }
 
     def background(self, angle):
-        sky_offset = -5 * math.degrees(angle) % WIDTH
+        sky_offset = -10 * math.degrees(angle) % WIDTH
         self.sc.blit(self.textures['S'], (sky_offset, 0))
         self.sc.blit(self.textures['S'], (sky_offset - WIDTH, 0))
         self.sc.blit(self.textures['S'], (sky_offset + WIDTH, 0))
         pygame.draw.rect(self.sc, DARKGRAY, (0, HALF_HEIGHT, WIDTH, HALF_HEIGHT))
 
-    def world(self, player_pos, player_angle):
-        ray_casting(self.sc, player_pos, player_angle, self.textures)
+    def world(self, world_objects):
+        for obj in sorted(world_objects, key=lambda n: n[0], reverse=True):
+            if obj[0]:
+                _, object, object_pos = obj
+                self.sc.blit(object, object_pos)
 
     def fps(self, clock):
         display_fps = str(int(clock.get_fps()))

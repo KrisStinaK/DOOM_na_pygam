@@ -32,3 +32,4 @@ class Player:
             self.angle -= 0.015
         if keys[pygame.K_RIGHT]:
             self.angle += 0.015
+        self.angle %= DOUBLE_PI

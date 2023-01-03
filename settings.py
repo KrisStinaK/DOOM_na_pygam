@@ -3,8 +3,7 @@ import math
 ## сделал константы большими буквами
 
 # game settings
-WIDTH = 1200
-HEIGHT = 800
+SIZE = WIDTH, HEIGHT = 1200, 800
 HALF_WIDTH = WIDTH // 2
 HALF_HEIGHT = HEIGHT // 2
 FPS = 60
@@ -25,6 +24,8 @@ DELTA_ANGLE = FOV / NUM_RAYS
 DIST = NUM_RAYS / (2 * math.tan(HALF_FOV))
 PROJ_COEFF = 3 * DIST * TILE
 SCALE = WIDTH // NUM_RAYS
+HALF_NUM_RAYS = NUM_RAYS // 2
+SCREEN_DIST = HALF_WIDTH / math.tan(HALF_FOV)
 
 # texture settings (1200 x 1200)
 TEXTURE_WIDTH = 1200
@@ -32,11 +33,17 @@ TEXTURE_HEIGHT = 1200
 TEXTURE_SCALE = TEXTURE_WIDTH // TILE
 
 # player settings
-player_pos = (HALF_WIDTH, HALF_HEIGHT)
+player_pos = (HALF_WIDTH // 4, HALF_HEIGHT - 50)
 player_angle = 0
 player_speed = 1.5
 
+# sprite settings
+DOUBLE_PI = math.pi * 2
+CENTER_RAY = NUM_RAYS // 2 - 1
+FAKE_RAYS = 100
+
 # colors
+WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (220, 0, 0)
 DARKGRAY = (40, 40, 40)
