@@ -15,7 +15,7 @@ class Drawing:
                          2: pygame.image.load('img/WALL75.bmp').convert(),
                          3: pygame.image.load('img/WALL103.bmp').convert(),
                          4: pygame.image.load('img/WALL1.bmp').convert(),
-                         'S': pygame.image.load('img/sky.png').convert()
+                         'S': pygame.image.load('img/Sky_2.bmp').convert()
                          }
 
     def background(self, angle):

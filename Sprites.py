@@ -9,6 +9,8 @@ class Sprites:
                              'tree': pygame.image.load('resources/sprites/static_sprites/Дерево1.png').convert_alpha(),
                              'torch': pygame.image.load('resources/sprites/static_sprites/Факел.png').convert_alpha(),
                              'devil': [pygame.image.load(f'resources/sprites/devil/{i}.png').convert_alpha() for i in
+                                       range(8)],
+                             'sprite': [pygame.image.load(f'resources/sprites/sprite/{i}.png').convert_alpha() for i in
                                        range(8)]
                              }
         self.list_object = [
@@ -19,6 +21,7 @@ class Sprites:
             Sprite_obj(self.sprite_types['tree'], True, (6.8, 6.6), 1.5, 0.4),
             # Sprite_obj(self.sprite_types['torch'], True, (6.8, 5.6), 1.8, 0.4),
             Sprite_obj(self.sprite_types['devil'], False, (7, 4), -0.2, 0.7),
+            Sprite_obj(self.sprite_types['sprite'], False, (15, 8), 0.8, 0.9),
 
         ]
 
