@@ -11,8 +11,10 @@ class Drawing:
         self.font = pygame.font.SysFont('Arial', 36, bold=True)
         # загрузка текстур (можно добавить больше, но потом нужно изменить цифру на карте)
         # под S небо (для него не нужно менять карту)
-        self.textures = {'1': pygame.image.load('img/board.jpg').convert(),
-                         '2': pygame.image.load('img/стена3.png').convert(),
+        self.textures = {1: pygame.image.load('img/стена3.png').convert(),
+                         2: pygame.image.load('img/WALL75.bmp').convert(),
+                         3: pygame.image.load('img/WALL103.bmp').convert(),
+                         4: pygame.image.load('img/WALL1.bmp').convert(),
                          'S': pygame.image.load('img/sky.png').convert()
                          }
 

@@ -8,7 +8,8 @@ from Sprites import *
 
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
-sc_map = pygame.Surface((WIDTH // MAP_SCALE, HEIGHT // MAP_SCALE))
+pygame.mouse.set_visible(False)
+sc_map = pygame.Surface(MINI_MAP_RES)
 clock = pygame.time.Clock()
 player = Player()
 sprites = Sprites()
@@ -85,7 +86,7 @@ def main_stage():
 
         drawing.background(player.angle)
         walls = ray_casting(player, drawing.textures)
-        drawing.world(walls + [ob.obj_locate(player, walls) for ob in sprites.list_object])
+        drawing.world(walls + [ob.obj_locate(player) for ob in sprites.list_object])
         drawing.fps(clock)
         drawing.mini_map(player)
 

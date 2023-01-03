@@ -6,6 +6,8 @@ class Sprites:
     def __init__(self):
         self.sprite_types = {'barrel': pygame.image.load('resources/sprites/static_sprites/бочка.png').convert_alpha(),
                              'rip': pygame.image.load('resources/sprites/static_sprites/rip.png').convert_alpha(),
+                             'tree': pygame.image.load('resources/sprites/static_sprites/Дерево1.png').convert_alpha(),
+                             'torch': pygame.image.load('resources/sprites/static_sprites/Факел.png').convert_alpha(),
                              'devil': [pygame.image.load(f'resources/sprites/devil/{i}.png').convert_alpha() for i in
                                        range(8)]
                              }
@@ -14,6 +16,8 @@ class Sprites:
             Sprite_obj(self.sprite_types['barrel'], True, (5.9, 2.2), 1.8, 0.4),
             Sprite_obj(self.sprite_types['rip'], True, (8.8, 2.5), 1.8, 0.4),
             Sprite_obj(self.sprite_types['rip'], True, (8.8, 5.6), 1.8, 0.4),
+            Sprite_obj(self.sprite_types['tree'], True, (6.8, 6.6), 1.5, 0.4),
+            # Sprite_obj(self.sprite_types['torch'], True, (6.8, 5.6), 1.8, 0.4),
             Sprite_obj(self.sprite_types['devil'], False, (7, 4), -0.2, 0.7),
 
         ]
@@ -31,12 +35,7 @@ class Sprite_obj(Sprites):
             self.sprite_angels = [frozenset(range(i, i + 45)) for i in range(0, 360, 45)]
             self.sprite_positions = {angle: pos for angle, pos in zip(self.sprite_angels, self.obj)}
 
-    def obj_locate(self, player, wall):
-        fake_walls_ = [wall[0] for i in range(FAKE_RAYS)]
-        fake_walls_1 = [wall[-1] for i in range(FAKE_RAYS)]
-        fake_walls = fake_walls_ + wall + fake_walls_1
-
-
+    def obj_locate(self, player):
         dx, dy = self.x - player.x, self.y - player.y
         distance = math.sqrt(dx ** 2 + dy ** 2)
         zeta = math.atan2(dy, dx)
@@ -50,8 +49,8 @@ class Sprite_obj(Sprites):
 
         fake_ray = current_ray + FAKE_RAYS
 
-        if 0 <= fake_ray <= NUM_RAYS - 1 + 2 * FAKE_RAYS and distance < fake_walls[fake_ray][0]:
-            proj_height = int(PROJ_COEFF / distance * self.scale)
+        if 0 <= fake_ray <= FAKE_RAYS_RANGE and distance > 30:
+            proj_height = min(int(PROJ_COEFF / distance * self.scale), DOUBLE_HEIGHT)
             half_proj_height = proj_height // 2
             shift = half_proj_height * self.shift
 
