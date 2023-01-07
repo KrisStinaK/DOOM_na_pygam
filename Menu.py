@@ -1,3 +1,5 @@
+import pygame
+
 from player import Player
 from drawing import Drawing
 from ray_casting import ray_casting
@@ -76,6 +78,47 @@ class Menu:
             sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
             pygame.display.flip()
 
+    def pause(self):
+        font = pygame.font.Font('fonts/8-BIT WONDER.TTF', 50)
+        text1 = font.render('Continue', True, (155, 45, 48))
+        text2 = font.render('Menu', True, (155, 45, 48))
+        ch_x, ch_y = self.text_x1 - 150, self.ch_y
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+                    if ch_y == self.text_y1 - 30:
+                        ch_y = self.text_y1 + 55
+                    elif ch_y == self.text_y1 + 55:
+                        ch_y = self.text_y1 + 135
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+                    if ch_y == self.text_y1 + 135:
+                        ch_y = self.text_y1 + 55
+                    elif ch_y == self.text_y1 + 55:
+                        ch_y = self.text_y1 - 30
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
+                        and ch_y == self.text_y1 - 30:
+                    running = False
+                    self.swetch_scene(self.main_stage)
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
+                        and ch_y == self.text_y1 + 55:
+                    self.menu()
+                if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
+                        and ch_y == self.text_y1 + 135:
+                    exit()
+
+                pygame.display.flip()
+
+            sc.fill((56, 34, 32))
+            sc.blit(self.image, (0, 0))
+            sc.blit(self.image_cherepok, (ch_x, ch_y))
+            sc.blit(text1, (self.text_x1, self.text_y1))
+            sc.blit(text2, (self.text_x2 + 20, self.text_y2))
+            sc.blit(self.text_3, (self.text_x3 - 20, self.text_y3))
+            pygame.display.flip()
+
     def menu(self):
         running = True
         while running:
@@ -118,7 +161,7 @@ class Menu:
                     self.swetch_scene(None)
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                     running = False
-                    self.swetch_scene(self.menu)
+                    self.swetch_scene(self.pause)
             player.movement()
             sc.fill(BLACK)
 
