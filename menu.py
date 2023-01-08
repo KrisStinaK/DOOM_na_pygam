@@ -130,6 +130,9 @@ class Menu:
                         color = (155, 45, 48)
                         x, y = 90, 450
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    if (x, y) == (90, 90):
+                        running = False
+                        self.swetch_scene(self.main_stage)
                     # if (x, y) == (90, 90):
                     #     self.Flag = 1
                     #     running = False
