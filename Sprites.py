@@ -139,6 +139,10 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
         ]
 
+    @property
+    def sprite_shot(self):
+        return min([obj.is_on_fire for obj in self.list_object], default=(float('inf'), 0))
+
 
 class Sprite_obj:
     def __init__(self, parameter, pos):
@@ -152,43 +156,52 @@ class Sprite_obj:
         self.blocked = parameter['blocked']
         self.side = 30
         self.animation_count = 0
-        self.pos = self.x, self.y = pos[0] * TILE, pos[1] * TILE
-        self.pos = self.x - self.side // 2, self.y - self.side // 2
+        self.x, self.y = pos[0] * TILE, pos[1] * TILE
 
         if self.viewing_angles:
             self.sprite_angels = [frozenset(range(i, i + 45)) for i in range(0, 360, 45)]
             self.sprite_positions = {angle: pos for angle, pos in zip(self.sprite_angels, self.obj)}
 
+    @property
+    def is_on_fire(self):
+        if CENTER_RAY - self.side // 2 < self.current_ray < CENTER_RAY + self.side // 2and self.blocked:
+            return self.distance, self.proj_height
+        return float('inf'), None
+
+    @property
+    def pos(self):
+        return self.x - self.side // 2, self.y - self.side // 2
+
     def obj_locate(self, player):
         dx, dy = self.x - player.x, self.y - player.y
-        distance = math.sqrt(dx ** 2 + dy ** 2)
-        zeta = math.atan2(dy, dx)
-        gamma = zeta - player.angle
+        self.distance = math.sqrt(dx ** 2 + dy ** 2)
+        self.zeta = math.atan2(dy, dx)
+        gamma = self.zeta - player.angle
         if dx > 0 and 180 <= math.degrees(player.angle) <= 360 or dx < 0 and dy < 0:
             gamma += DOUBLE_PI
 
         delta_rays = int(gamma / DELTA_ANGLE)
-        current_ray = CENTER_RAY + delta_rays
-        distance *= math.cos(HALF_FOV - current_ray * DELTA_ANGLE)
+        self.current_ray = CENTER_RAY + delta_rays
+        self.distance *= math.cos(HALF_FOV - self.current_ray * DELTA_ANGLE)
 
-        fake_ray = current_ray + FAKE_RAYS
+        fake_ray = self.current_ray + FAKE_RAYS
 
-        if 0 <= fake_ray <= FAKE_RAYS_RANGE and distance > 30:
-            proj_height = min(int(PROJ_COEFF / distance * self.scale), DOUBLE_HEIGHT)
-            half_proj_height = proj_height // 2
+        if 0 <= fake_ray <= FAKE_RAYS_RANGE and self.distance > 30:
+            self.proj_height = min(int(PROJ_COEFF / self.distance * self.scale), DOUBLE_HEIGHT)
+            half_proj_height = self.proj_height // 2
             shift = half_proj_height * self.shift
             # choosing sprite for angle
             if self.viewing_angles:
-                if zeta < 0:
-                    zeta += DOUBLE_PI
-                zeta = 360 - int(math.degrees(zeta))
+                if self.zeta < 0:
+                    self.zeta += DOUBLE_PI
+                self.zeta = 360 - int(math.degrees(self.zeta))
                 for angles in self.sprite_angels:
-                    if zeta in angles:
+                    if self.zeta in angles:
                         self.obj = self.sprite_positions[angles]
                         break
             # sprite animation
             sprite_obj = self.obj
-            if self.animation and distance < self.animation_dist:
+            if self.animation and self.distance < self.animation_dist:
                 sprite_obj = self.animation[0]
                 if self.animation_count < self.animation_speed:
                     self.animation_count += 1
@@ -198,9 +211,9 @@ class Sprite_obj:
 
             # sprite scale and pos
 
-            sprite_pos = (current_ray * SCALE - half_proj_height, HALF_HEIGHT - half_proj_height + shift)
+            sprite_pos = (self.current_ray * SCALE - half_proj_height, HALF_HEIGHT - half_proj_height + shift)
 
-            sprite = pygame.transform.scale(sprite_obj, (proj_height, proj_height))
-            return (distance, sprite, sprite_pos)
+            sprite = pygame.transform.scale(sprite_obj, (self.proj_height, self.proj_height))
+            return (self.distance, sprite, sprite_pos)
         else:
             return (False,)

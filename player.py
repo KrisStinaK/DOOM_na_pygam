@@ -13,13 +13,17 @@ class Player:
         # collision parameters
         self.side = 50
         self.rect = pygame.Rect(*player_pos, self.side, self.side)
-        self.collision_sprites = [pygame.Rect(*obj.pos, obj.side, obj.side) for obj in
-                                  self.sprites.list_object if obj.blocked]
-        self.collision_list = collision_walls + self.collision_sprites
+        # weapon
+        self.shot = False
 
     @property  # всторенный декоратор python, теперь pos яаляется объект-свойством
     def pos(self):
         return self.x, self.y
+
+    @property
+    def collision_list(self):
+        return collision_walls + [pygame.Rect(*obj.pos, obj.side, obj.side) for obj in
+                                  self.sprites.list_object if obj.blocked]
 
     def detect_collision(self, dx, dy):
         next_rect = self.rect.copy()
