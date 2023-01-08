@@ -1,3 +1,5 @@
+from random import random, choice, randint
+
 import pygame
 from settings import *
 from map_ import mini_map
@@ -14,14 +16,37 @@ class Drawing:
                          2: pygame.image.load('img/WALL75.bmp').convert(),
                          3: pygame.image.load('img/WALL103.bmp').convert(),
                          4: pygame.image.load('img/WALL1.bmp').convert(),
-                         'S': pygame.image.load('img/Sky_2.bmp').convert()
+                         5: pygame.image.load('img/WALLlvl2_1.bmp').convert(),
+                         6: pygame.image.load('img/WALLlvl2_2.bmp').convert(),
+                         7: pygame.image.load('img/WALLlvl2_3.bmp').convert(),
+                         8: pygame.image.load('img/WALLlvl3_1.bmp').convert(),
+                         9: pygame.image.load('img/WALLlvl3_2.bmp').convert(),
+                         10: pygame.image.load('img/WALLlvl3_3.bmp').convert(),
+                         11: pygame.image.load('img/WALLlvl3_4.bmp').convert(),
+
+                         # sky
+                         12: pygame.image.load('img/Sky_2.bmp').convert(),
+                         13: pygame.image.load('img/sky.png').convert(),
+                         14: pygame.image.load('img/Sky_3.bmp').convert(),
+                         15: pygame.image.load('img/Sky_4.bmp').convert(),
+                         16: pygame.image.load('img/Sky_5.bmp').convert(),
+                         17: pygame.image.load('img/Sky2.bmp').convert(),
+                         18: pygame.image.load('img/Sky_8.bmp').convert(),
+                         19: pygame.image.load('img/Sky_9.bmp').convert(),
+
+                         # wall
+                         20: pygame.image.load('img/WALLlvl4_1.bmp').convert(),
+                         21: pygame.image.load('img/WALLlvl4_2.bmp').convert(),
+                         22: pygame.image.load('img/WALLlvl4_3.bmp').convert(),
+                         23: pygame.image.load('img/WALLlvl4_3.bmp').convert(),
                          }
+        self.k = randint(12, 19)
 
     def background(self, angle):
         sky_offset = -10 * math.degrees(angle) % WIDTH
-        self.sc.blit(self.textures['S'], (sky_offset, 0))
-        self.sc.blit(self.textures['S'], (sky_offset - WIDTH, 0))
-        self.sc.blit(self.textures['S'], (sky_offset + WIDTH, 0))
+        self.sc.blit(self.textures[self.k], (sky_offset, 0))
+        self.sc.blit(self.textures[self.k], (sky_offset - WIDTH, 0))
+        self.sc.blit(self.textures[self.k], (sky_offset + WIDTH, 0))
         pygame.draw.rect(self.sc, DARKGRAY, (0, HALF_HEIGHT, WIDTH, HALF_HEIGHT))
 
     def world(self, world_objects):
