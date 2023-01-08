@@ -1,5 +1,6 @@
 import pygame
 
+from settings import *
 from player import Player
 from drawing import Drawing
 from ray_casting import ray_casting
@@ -9,13 +10,15 @@ pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.mouse.set_visible(False)
 sc_map = pygame.Surface(MINI_MAP_RES)
-clock = pygame.time.Clock()
-player = Player()
+
 sprites = Sprites()
+clock = pygame.time.Clock()
+player = Player(sprites)
 drawing = Drawing(sc, sc_map)
 
 # scene
 current_scene = None
+
 
 class Menu:
     def __init__(self):
@@ -23,8 +26,8 @@ class Menu:
         self.text = self.font.render("New Game", True, (155, 45, 48))
         self.text_2 = self.font.render("Options", True, (155, 45, 48))
         self.text_3 = self.font.render("Quit Game", True, (155, 45, 48))
-        self.image = pygame.image.load('img/doom.png')
-        self.image_cherepok = pygame.image.load('img/Cherepok.png')
+        self.image = pygame.image.load('img/board.jpg')  # img/doom.png
+        self.image_cherepok = pygame.image.load('img/sky.png')  # img/Cherepok.png
         self.text_x1 = WIDTH // 2 - self.text.get_width() // 2
         self.text_y1 = HEIGHT // 2 - self.text.get_height() // 2
         self.text_x2 = WIDTH // 2 + 50 - self.text.get_width() // 2
@@ -32,6 +35,7 @@ class Menu:
         self.text_x3 = WIDTH // 2 - self.text.get_width() // 2
         self.text_y3 = HEIGHT // 1.4 - self.text.get_height() // 2
         self.ch_x, self.ch_y = self.text_x1 - 120, self.text_y1 - 30
+
     def draw(self, sc):
         sc.fill((56, 34, 32))
         sc.blit(self.image, (0, 0))
@@ -40,11 +44,9 @@ class Menu:
         sc.blit(self.text_2, (self.text_x2, self.text_y2))
         sc.blit(self.text_3, (self.text_x3, self.text_y3))
 
-
     def swetch_scene(self, scene):
         global current_scene
         current_scene = scene
-
 
     def scene_1(self):
         image_scene_1 = pygame.image.load('img/Сцена1.jpg')
@@ -149,7 +151,6 @@ class Menu:
 
             self.draw(sc)
             pygame.display.flip()
-
 
     def main_stage(self):
         # >>>>>>> origin/main

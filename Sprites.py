@@ -38,6 +38,7 @@ class Sprites:
                      range(12)]),
                 'animation_dist': 800,
                 'animation_speed': 12,
+                'blocked': True
             },
             'sprite_blue_pin': {
                 'sprite': pygame.image.load(f'resources/sprites/blue pin/structure/0.png').convert_alpha(),
@@ -148,8 +149,11 @@ class Sprite_obj:
         self.animation = parameter['animation']
         self.animation_dist = parameter['animation_dist']
         self.animation_speed = parameter['animation_speed']
+        self.blocked = parameter['blocked']
+        self.side = 30
         self.animation_count = 0
         self.pos = self.x, self.y = pos[0] * TILE, pos[1] * TILE
+        self.pos = self.x - self.side // 2, self.y - self.side // 2
 
         if self.viewing_angles:
             self.sprite_angels = [frozenset(range(i, i + 45)) for i in range(0, 360, 45)]
