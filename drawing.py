@@ -1,7 +1,6 @@
 import pygame
 from settings import *
-from ray_casting import ray_casting
-from map import mini_map
+from map_ import mini_map
 
 
 class Drawing:

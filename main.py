@@ -1,4 +1,4 @@
-from Menu import *
+from menu import *
 import pygame
 
 a = Menu()

@@ -1,5 +1,3 @@
-import pygame
-
 from player import Player
 from drawing import Drawing
 from ray_casting import ray_casting
@@ -32,6 +30,7 @@ class Menu:
         self.text_x3 = WIDTH // 2 - self.text.get_width() // 2
         self.text_y3 = HEIGHT // 1.4 - self.text.get_height() // 2
         self.ch_x, self.ch_y = self.text_x1 - 120, self.text_y1 - 30
+        self.Flag = 0
     def draw(self, sc):
         sc.fill((56, 34, 32))
         sc.blit(self.image, (0, 0))
@@ -77,6 +76,84 @@ class Menu:
             sc.blit(text1, (WIDTH // 2 - 300, HEIGHT // 2))
             sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
             pygame.display.flip()
+    def load_level(self):
+        image_1 = pygame.image.load('img/level_0.jpg')
+        image_2 = pygame.image.load('img/level_1.jpg')
+        image_3 = pygame.image.load('img/level_2.jpg')
+        image_4 = pygame.image.load('img/level_3.jpg')
+        image_5 = pygame.image.load('img/level_4.jpg')
+        image_6 = pygame.image.load('img/level_5.jpg')
+        color = (155, 45, 48)
+        x, y = 90, 90
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                    self.swetch_scene(None)
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+                    if (x, y) == (90, 90):
+                        x, y = 440, 90
+                    elif (x, y) == (440, 90):
+                        x, y = 790, 90
+                    elif (x, y) == (90, 450):
+                        x, y = 440, 450
+                    elif (x, y) == (440, 450):
+                        x, y = 790, 450
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+                    if (x, y) == (790, 90):
+                        x = 440
+                    elif (x, y) == (440, 90):
+                        x = 90
+                    elif (x, y) == (790, 450):
+                        x = 440
+                    elif (x, y) == (440, 450):
+                        x = 90
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+                    if (x, y) == (90, 90):
+                        x, y = 90, 450
+                    elif (x, y) == (440, 90):
+                        x, y = 440, 450
+                    elif (x, y) == (790, 90):
+                        x, y = 790, 450
+                    elif y == 450:
+                        color = (0, 0, 170)
+                        x, y = 90, 1000
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+                    if (x, y) == (90, 450):
+                        x, y = 90, 90
+                    elif (x, y) == (440, 450):
+                        x, y = 440, 90
+                    elif (x, y) == (790, 450):
+                        x, y = 790, 90
+                    if color == (0, 0, 170):
+                        color = (155, 45, 48)
+                        x, y = 90, 450
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    # if (x, y) == (90, 90):
+                    #     self.Flag = 1
+                    #     running = False
+                    #     self.swetch_scene(self.main_stage)
+                    # elif (x, y) == (440, 90):
+                    #     self.Flag = 2
+                    #     running = False
+                    #     self.swetch_scene(self.main_stage)
+                    if color == (0, 0, 170):
+                        running = False
+                        self.swetch_scene(self.menu)
+            text = self.font.render("Back", True, color)
+            sc.fill((56, 34, 32))
+            sc.blit(image_1, (90, 90))
+            sc.blit(image_2, (440, 90))
+            sc.blit(image_3, (790, 90))
+            sc.blit(image_4, (90, 450))
+            sc.blit(image_5, (440, 450))
+            sc.blit(image_6, (790, 450))
+            sc.blit(text, (50, 730))
+            pygame.draw.rect(sc, (0, 0, 170), (x, y,
+                                                   320, 240), 3)
+            pygame.display.flip()
+
 
     def pause(self):
         font = pygame.font.Font('fonts/8-BIT WONDER.TTF', 50)
@@ -138,7 +215,7 @@ class Menu:
                         self.ch_y = self.text_y1 - 30
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and self.ch_y == self.text_y1 - 30:
-                    self.swetch_scene(self.main_stage)
+                    self.swetch_scene(self.load_level)
                     running = False
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN)\
                         and self.ch_y == self.text_y1 + 55:

@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from map import world_map, WORLD_HEIGHT, WORLD_WIDTH
+from map_ import world_map, WORLD_HEIGHT, WORLD_WIDTH
 
 
 def mapping(a, b):
