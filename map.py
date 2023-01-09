@@ -1,5 +1,5 @@
-from settings import *
 import pygame
+from settings import *
 
 _ = False
 matrix_map = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],

@@ -88,7 +88,6 @@ class Drawing:
         self.sc.blit(self.sc_map, MAP_POS)
 
     def player_weapon(self, shots):
-
         if self.player.shot:
             self.shot_projection = min(shots)[1] // 2
             shot_sprite = self.weapon_shot_animation[0]
