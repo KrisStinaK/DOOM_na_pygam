@@ -1,4 +1,4 @@
-from random import random, choice, randint
+from random import randint
 
 import pygame
 from settings import *
@@ -40,7 +40,12 @@ class Drawing:
                          20: pygame.image.load('img/WALLlvl4_1.bmp').convert(),
                          21: pygame.image.load('img/WALLlvl4_2.bmp').convert(),
                          22: pygame.image.load('img/WALLlvl4_3.bmp').convert(),
-                         23: pygame.image.load('img/WALLlvl4_3.bmp').convert(),
+                         23: pygame.image.load('img/wall_lvl_6_1.gif').convert(),
+                         24: pygame.image.load('img/wall_lvl_6_2.gif').convert(),
+                         25: pygame.image.load('img/wall_lvl_6_3.gif').convert(),
+                         26: pygame.image.load('img/wall_lvl_6_4.png').convert(),
+                         27: pygame.image.load('img/lift_.bmp').convert(),
+                         28: pygame.image.load('img/lift.bmp').convert(),
                          }
         self.k = randint(12, 19)
         # weapon

@@ -15,7 +15,6 @@ drawing = Drawing(sc, sc_map, player)
 
 # scene
 current_scene = None
-map = matrix_map
 
 class Menu:
     def __init__(self):
@@ -155,6 +154,14 @@ class Menu:
                         map = matrix_map_level4
                         running = False
                         self.swetch_scene(self.main_stage)
+                    elif (x, y) == (440, 450):
+                        map = matrix_map_level5
+                        running = False
+                        self.swetch_scene(self.main_stage)
+                    elif (x, y) == (790, 450):
+                        map = matrix_map_level6
+                        running = False
+                        self.swetch_scene(self.main_stage)
 
                     if color == (0, 0, 170):
                         running = False
@@ -164,6 +171,7 @@ class Menu:
                         for i, char in enumerate(row):
                             if char:
                                 mini_map.add((i * MAP_TILE, j * MAP_TILE))
+                                collision_walls.append(pygame.Rect(i * TILE, j * TILE, TILE, TILE))
                                 if char == 1:
                                     world_map[(i * TILE, j * TILE)] = 1
                                 elif char == 2:
@@ -210,6 +218,16 @@ class Menu:
                                     world_map[(i * TILE, j * TILE)] = 22
                                 elif char == 23:
                                     world_map[(i * TILE, j * TILE)] = 23
+                                elif char == 24:
+                                    world_map[(i * TILE, j * TILE)] = 24
+                                elif char == 25:
+                                    world_map[(i * TILE, j * TILE)] = 25
+                                elif char == 26:
+                                    world_map[(i * TILE, j * TILE)] = 26
+                                elif char == 27:
+                                    world_map[(i * TILE, j * TILE)] = 27
+                                elif char == 28:
+                                    world_map[(i * TILE, j * TILE)] = 28
 
             text = self.font.render("Back", True, color)
             sc.fill((56, 34, 32))

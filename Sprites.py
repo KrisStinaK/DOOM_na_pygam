@@ -130,7 +130,7 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_green_pin'], (7.5, 13.4)),
             Sprite_obj(self.sprite_parametrs['sprite_grey_pin'], (21, 3.7)),
             Sprite_obj(self.sprite_parametrs['sprite_alive'], (13.5, 10)),
-            Sprite_obj(self.sprite_parametrs['sprite_monster'], (22, 1.7)),
+            Sprite_obj(self.sprite_parametrs['sprite_monster'], (22.5, 1.7)),
 
             # static sprite
             Sprite_obj(self.sprite_parametrs['sprite_rip'], (10.5, 7.5)),
