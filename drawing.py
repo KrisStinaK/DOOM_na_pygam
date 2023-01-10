@@ -53,6 +53,8 @@ class Drawing:
                          28: pygame.image.load('img/lift.bmp').convert(),
                          29: pygame.image.load('img/WALL_lvl4_4.bmp').convert(),
                          30: pygame.image.load('img/WALL_lvl4_5.bmp').convert(),
+                         31: pygame.image.load('img/WALL_lvl5.bmp').convert(),
+                         32: pygame.image.load('img/wall_lvl5.gif').convert(),
                          }
         self.k = randint(12, 19)
         # weapon
@@ -116,7 +118,9 @@ class Drawing:
             elif self.F3 == 3:
                 pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (40, 90, MAP_TILE, MAP_TILE))
             elif self.F3 == 4:
-                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (30, 30, MAP_TILE, MAP_TILE))
+                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (50, 50, MAP_TILE, MAP_TILE))
+            elif self.F3 == 5:
+                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (150, 10, MAP_TILE, MAP_TILE))
             elif self.F3 == 6:
                 pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (180, 80, MAP_TILE, MAP_TILE))
             pygame.draw.rect(self.sc_map, SANDY, (x, y, MAP_TILE, MAP_TILE))
@@ -134,6 +138,7 @@ class Drawing:
         elif self.weapon == 3:
             self.weapon_base_sprite = self.weapon_base_sprite_3
             self.weapon_shot_animation = self.weapon_shot_animation_3
+            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 450)
         if self.player.shot:
             self.shot_projection = min(shots)[1] // 2
             shot_sprite = self.weapon_shot_animation[0]
@@ -152,7 +157,6 @@ class Drawing:
                 self.shot_animation_trigger = True
         else:
             self.sc.blit(self.weapon_base_sprite, self.weapon_pos)
-        print(self.weapon)
 
     def bullet_sfx(self):
         if self.sfx_length_count < self.sfx_length:

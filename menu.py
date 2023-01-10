@@ -14,7 +14,8 @@ clock = pygame.time.Clock()
 sprites = Sprites()
 player = Player(sprites)
 drawing = Drawing(sc, sc_map, player)
-
+music = pygame.mixer.Sound("song/01 Title Screen.mp3")
+music2 = pygame.mixer.Sound("song/02 At Doom's Gate.mp3")
 # scene
 current_scene = None
 
@@ -60,6 +61,7 @@ class Menu:
                     self.swetch_scene(self.menu)
                     running = False
             sc.blit(image_scene_1, (0, 0))
+            music.play()
             pygame.display.flip()
 
     def options_scene(self):
@@ -73,6 +75,7 @@ class Menu:
         text7 = font.render('"Escape"        выйти из игры', True, WHITE)
         text8 = font.render('"Enter"        выбрать', True, WHITE)
         text9 = font.render('"Мышь"        управление обзора', True, WHITE)
+        textx = font.render('"1, 2, 3"        смена оружия', True, WHITE)
         running = True
         while running:
             for event in pygame.event.get():
@@ -92,6 +95,7 @@ class Menu:
             sc.blit(text7, (WIDTH // 2 - 400 - 100, 550))
             sc.blit(text8, (WIDTH // 2 - 400 - 100, 600))
             sc.blit(text9, (WIDTH // 2 - 400 - 100, 650))
+            sc.blit(textx, (WIDTH // 2 - 400 - 100, 700))
             pygame.display.flip()
 
     def load_level(self):
@@ -102,6 +106,7 @@ class Menu:
         image_5 = pygame.image.load('img/level_4.jpg')
         image_6 = pygame.image.load('img/level_5.jpg')
         map = matrix_map
+        self.F2 = 0
         color = (155, 45, 48)
         x, y = 90, 90
         running = True
@@ -152,7 +157,6 @@ class Menu:
                     # if (x, y) == (90, 90):
                     #     running = False
                     #     self.swetch_scene(self.main_stage)
-
                     if (x, y) == (90, 90):
                         map = matrix_map
                         self.F2 = 1
@@ -182,6 +186,7 @@ class Menu:
                         self.swetch_scene(self.main_stage)
                     elif (x, y) == (440, 450):
                         map = matrix_map_level5
+                        player.x, player.y = 1180, 165
                         self.F2 = 5
                         drawing.F3 = 5
                         running = False
@@ -263,6 +268,10 @@ class Menu:
                                     world_map[(i * TILE, j * TILE)] = 29
                                 elif char == 30:
                                     world_map[(i * TILE, j * TILE)] = 30
+                                elif char == 31:
+                                    world_map[(i * TILE, j * TILE)] = 31
+                                elif char == 32:
+                                    world_map[(i * TILE, j * TILE)] = 32
                                 elif char == 90:
                                     world_map[(i * TILE, j * TILE)] = 90
                                 elif char == 91:
@@ -309,6 +318,7 @@ class Menu:
                     self.swetch_scene(self.main_stage)
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and ch_y == self.text_y1 + 55:
+                    music2.stop()
                     running = False
                     self.swetch_scene(self.menu)
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
@@ -359,7 +369,10 @@ class Menu:
 
     def scene_you_win(self):
         font = pygame.font.Font('fonts/8-BIT WONDER.TTF', 50)
-        text = font.render('YOU WIN', True, (155, 45, 48))
+        font2 = pygame.font.Font('fonts/8-BIT WONDER.TTF', 30)
+        text = font.render('LEVEL UP', True, (0, 0, 0))
+        text2 = font2.render('press "Enter" to return to the menu', True, (0, 0, 0))
+        image = pygame.image.load('img/you_win.jpg')
         running = True
         while running:
             for event in pygame.event.get():
@@ -367,9 +380,10 @@ class Menu:
                     exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     running = False
-                    self.swetch_scene(self.menu)
-            sc.fill((0, 0, 250))
-            sc.blit(text, (WIDTH // 2 - 400, HEIGHT // 2))
+                    self.swetch_scene(self.load_level)
+            sc.blit(image, (0, 0))
+            sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
+            sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
             pygame.display.flip()
 
     def main_stage(self):
@@ -422,6 +436,8 @@ class Menu:
             drawing.fps(clock)
             drawing.mini_map(player)
             drawing.player_weapon([wall_shot, sprites.sprite_shot])
+
+            music2.play()
 
             pygame.display.flip()
             clock.tick()
