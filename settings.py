@@ -38,7 +38,13 @@ TEXTURE_SCALE = TEXTURE_WIDTH // TILE
 HALF_TEXTURE_HEIGHT = TEXTURE_HEIGHT // 2
 
 # player settings
-player_pos = (HALF_WIDTH // 4, HALF_HEIGHT - 50)
+player_pos = (300, 300)
+player_pos_lv2 = (1000, 600)
+player_pos_lv3 = (HALF_WIDTH // 4, HALF_HEIGHT - 50)
+player_pos_lv4 = (HALF_WIDTH // 4, HALF_HEIGHT - 50)
+player_pos_lv5 = (HALF_WIDTH // 4, HALF_HEIGHT - 50)
+player_pos_lv6 = (HALF_WIDTH // 4, HALF_HEIGHT - 50)
+
 player_angle = 0
 player_speed = 1.5
 
@@ -54,5 +60,6 @@ BLACK = (0, 0, 0)
 RED = (220, 0, 0)
 DARKGRAY = (40, 40, 40)
 SKYBLUE = (0, 186, 255)
+COLOR_CONTROL_POINT = (167, 252, 0)
 YELLOW = (220, 220, 0)
 SANDY = (244, 164, 96)

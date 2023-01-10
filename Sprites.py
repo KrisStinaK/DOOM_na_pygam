@@ -13,7 +13,7 @@ class Sprites:
                 'scale': 1.1,
                 'animation': deque(
                     [pygame.image.load(f'resources/sprites/devil/animation/{i}.png').convert_alpha() for i in range(9)]),
-                'animation_dist': 200,
+                'animation_dist': 500,
                 'animation_speed': 15,
                 'blocked': True,
             },
@@ -121,6 +121,7 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_devil'], (7, 4)),
             Sprite_obj(self.sprite_parametrs['sprite_devil'], (5, 10)),
             Sprite_obj(self.sprite_parametrs['sprite_devil'], (9, 7)),
+            Sprite_obj(self.sprite_parametrs['sprite_devil'], (20, 10)),
             Sprite_obj(self.sprite_parametrs['sprite_barrel'], (7.1, 2.1)),
             Sprite_obj(self.sprite_parametrs['sprite_barrel'], (5.9, 2.1)),
             Sprite_obj(self.sprite_parametrs['sprite_fire'], (20, 2.1)),
@@ -164,7 +165,7 @@ class Sprite_obj:
 
     @property
     def is_on_fire(self):
-        if CENTER_RAY - self.side // 2 < self.current_ray < CENTER_RAY + self.side // 2and self.blocked:
+        if CENTER_RAY - self.side // 2 < self.current_ray < CENTER_RAY + self.side // 2 and self.blocked:
             return self.distance, self.proj_height
         return float('inf'), None
 

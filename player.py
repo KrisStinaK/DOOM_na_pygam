@@ -7,6 +7,7 @@ from map_ import collision_walls
 class Player:
     def __init__(self, sprites):
         self.x, self.y = player_pos
+        self.F = 0
         self.sprites = sprites
         self.angle = player_angle
         self.sensitivity = 0.004
@@ -61,6 +62,7 @@ class Player:
     def keys_control(self):
         dx = 0
         dy = 0
+        self.F *= 0
         sin_a = math.sin(self.angle)
         cos_a = math.cos(self.angle)
         keys = pygame.key.get_pressed()
@@ -83,11 +85,18 @@ class Player:
             dx = -player_speed * sin_a
             dy = player_speed * cos_a
             self.detect_collision(dx, dy)
-        #  if keys[pygame.K_LEFT]:
-        #    self.angle -= 0.015
-        #  if keys[pygame.K_RIGHT]:
-        #    self.angle += 0.015
+        if self.x > 2210 and self.y < 180:
+            self.F = 1
+        elif 1200 > self.x > 1100 and 125 < self.y < 200:
+            self.F = 2
+        elif 475 > self.x > 425 and 970 > self.y > 900:
+            self.F = 3
+        # elif self.x > 2210 and self.y < 180:
+        #     self.F += 1
+        elif 1900 > self.x > 1800 and 890 < self.y < 900:
+            self.F = 6
         self.angle %= DOUBLE_PI
+        # print(self.x, self.y)
 
     def mouse_control(self):
         if pygame.mouse.get_focused():

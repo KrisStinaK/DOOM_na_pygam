@@ -11,6 +11,8 @@ class Drawing:
         self.sc = sc
         self.sc_map = sc_map
         self.player = player
+        self.F3 = 0
+        self.weapon = 0
         self.font = pygame.font.SysFont('Arial', 36, bold=True)
         # загрузка текстур (можно добавить больше, но потом нужно изменить цифру на карте)
         # под S небо (для него не нужно менять карту)
@@ -35,6 +37,9 @@ class Drawing:
                          17: pygame.image.load('img/Sky2.bmp').convert(),
                          18: pygame.image.load('img/Sky_8.bmp').convert(),
                          19: pygame.image.load('img/Sky_9.bmp').convert(),
+                         90: pygame.image.load('img/sky_7.bmp').convert(),
+                         91: pygame.image.load('img/sky_a.bmp').convert(),
+                         92: pygame.image.load('img/sky_b.bmp').convert(),
 
                          # wall
                          20: pygame.image.load('img/WALLlvl4_1.bmp').convert(),
@@ -46,19 +51,34 @@ class Drawing:
                          26: pygame.image.load('img/wall_lvl_6_4.png').convert(),
                          27: pygame.image.load('img/lift_.bmp').convert(),
                          28: pygame.image.load('img/lift.bmp').convert(),
+                         29: pygame.image.load('img/WALL_lvl4_4.bmp').convert(),
+                         30: pygame.image.load('img/WALL_lvl4_5.bmp').convert(),
                          }
         self.k = randint(12, 19)
         # weapon
-        self.weapon_base_sprite = pygame.image.load('resources/gun/static/standart_weapon.png').convert_alpha()
-        self.weapon_shot_animation = deque([pygame.image.load(f'resources/gun/shot/{i}.png').convert_alpha()
+        self.weapon_base_sprite_1 = pygame.image.load('resources/gun/static/standart_weapon.png').convert_alpha()
+        self.weapon_shot_animation_1 = deque([pygame.image.load(f'resources/gun/shot/{i}.png').convert_alpha()
                                             for i in range(20)])
+
+        self.weapon_base_sprite_2 = pygame.image.load('resources/gun_2/static/0.png').convert_alpha()
+        self.weapon_shot_animation_2 = deque([pygame.image.load(f'resources/gun_2/shot/{i}.png').convert_alpha()
+                                              for i in range(3)])
+
+        self.weapon_base_sprite_3 = pygame.image.load('resources/gun_3/static/0.png').convert_alpha()
+        self.weapon_shot_animation_3 = deque([pygame.image.load(f'resources/gun_3/shot/{i}.png').convert_alpha()
+                                              for i in range(5)])
+
+        self.weapon_base_sprite = self.weapon_base_sprite_1 # значение по умолчанию, нужно для смены оружия
+        self.weapon_shot_animation = self.weapon_shot_animation_1 # анимация по умолчанию
+
         self.weapon_rect = self.weapon_base_sprite.get_rect()
-        self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 2, HEIGHT - self.weapon_rect.height)
+        self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 600)
         self.shot_length = len(self.weapon_shot_animation)
         self.shot_length_count = 0
         self.shot_animation_speed = 3
         self.shot_animation_count = 0
         self.shot_animation_trigger = True
+
         # sfx
         self.sfx = deque([pygame.image.load(f'resources/gun/sfx/{i}.png').convert_alpha() for i in range(9)])
         self.sfx_length_count = 0
@@ -89,10 +109,31 @@ class Drawing:
                                                                map_y + 12 * math.sin(player.angle)), 2)
         pygame.draw.circle(self.sc_map, RED, (int(map_x), int(map_y)), 5)
         for x, y in mini_map:
+            if self.F3 == 1:
+                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (220, 10, MAP_TILE, MAP_TILE))
+            elif self.F3 == 2:
+                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (110, 10, MAP_TILE, MAP_TILE))
+            elif self.F3 == 3:
+                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (40, 90, MAP_TILE, MAP_TILE))
+            elif self.F3 == 4:
+                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (30, 30, MAP_TILE, MAP_TILE))
+            elif self.F3 == 6:
+                pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (180, 80, MAP_TILE, MAP_TILE))
             pygame.draw.rect(self.sc_map, SANDY, (x, y, MAP_TILE, MAP_TILE))
         self.sc.blit(self.sc_map, MAP_POS)
 
     def player_weapon(self, shots):
+        if self.weapon == 1:
+            self.weapon_base_sprite = self.weapon_base_sprite_1
+            self.weapon_shot_animation = self.weapon_shot_animation_1
+            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 600)
+        elif self.weapon == 2:
+            self.weapon_base_sprite = self.weapon_base_sprite_2
+            self.weapon_shot_animation = self.weapon_shot_animation_2
+            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 500)
+        elif self.weapon == 3:
+            self.weapon_base_sprite = self.weapon_base_sprite_3
+            self.weapon_shot_animation = self.weapon_shot_animation_3
         if self.player.shot:
             self.shot_projection = min(shots)[1] // 2
             shot_sprite = self.weapon_shot_animation[0]
@@ -111,6 +152,7 @@ class Drawing:
                 self.shot_animation_trigger = True
         else:
             self.sc.blit(self.weapon_base_sprite, self.weapon_pos)
+        print(self.weapon)
 
     def bullet_sfx(self):
         if self.sfx_length_count < self.sfx_length:

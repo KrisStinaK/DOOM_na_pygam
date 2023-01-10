@@ -1,3 +1,5 @@
+import pygame
+
 from player import Player
 from drawing import Drawing
 from ray_casting import ray_casting, ray_casting_walls
@@ -32,6 +34,7 @@ class Menu:
         self.text_y3 = HEIGHT // 1.4 - self.text.get_height() // 2
         self.ch_x, self.ch_y = self.text_x1 - 120, self.text_y1 - 30
         self.map = matrix_map
+        self.F2 = 0
 
     def draw(self, sc):
         sc.fill((56, 34, 32))
@@ -60,21 +63,35 @@ class Menu:
             pygame.display.flip()
 
     def options_scene(self):
-        font = pygame.font.Font('fonts/8-BIT WONDER.TTF', 30)
-        text1 = font.render('in the development', True, (155, 45, 48))
-        text2 = font.render('Press the "p" button to go back', True, (155, 45, 48))
+        font = pygame.font.SysFont('fonts/8-BIT WONDER.TTF', 50)
+        text1 = font.render('Управление:', True, WHITE)
+        text2 = font.render('"E"        пауза', True, WHITE)
+        text3 = font.render('"W"        вперед', True, WHITE)
+        text4 = font.render('"A"        влево', True, WHITE)
+        text5 = font.render('"S"        назад', True, WHITE)
+        text6 = font.render('"D"        вправо', True, WHITE)
+        text7 = font.render('"Escape"        выйти из игры', True, WHITE)
+        text8 = font.render('"Enter"        выбрать', True, WHITE)
+        text9 = font.render('"Мышь"        управление обзора', True, WHITE)
         running = True
         while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     exit()
                     self.swetch_scene(None)
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     self.swetch_scene(self.menu)
                     running = False
-            sc.fill((0, 0, 255))
-            sc.blit(text1, (WIDTH // 2 - 300, HEIGHT // 2))
-            sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
+            sc.fill((0, 0, 0))
+            sc.blit(text1, (200, 100))
+            sc.blit(text2, (WIDTH // 2 - 400, 200))
+            sc.blit(text3, (WIDTH // 2 - 400, 300))
+            sc.blit(text4, (WIDTH // 2 - 400, 350))
+            sc.blit(text5, (WIDTH // 2 - 400, 400))
+            sc.blit(text6, (WIDTH // 2 - 400, 450))
+            sc.blit(text7, (WIDTH // 2 - 400 - 100, 550))
+            sc.blit(text8, (WIDTH // 2 - 400 - 100, 600))
+            sc.blit(text9, (WIDTH // 2 - 400 - 100, 650))
             pygame.display.flip()
 
     def load_level(self):
@@ -138,28 +155,42 @@ class Menu:
 
                     if (x, y) == (90, 90):
                         map = matrix_map
+                        self.F2 = 1
+                        drawing.F3 = 1
                         running = False
                         self.swetch_scene(self.main_stage)
                     elif (x, y) == (440, 90):
                         map = matrix_map_level2
+                        self.F2 = 2
+                        drawing.F3 = 2
                         running = False
                         self.swetch_scene(self.main_stage)
 
                     elif (x, y) == (790, 90):
                         map = matrix_map_level3
+                        self.F2 = 3
+                        drawing.F3 = 3
                         running = False
                         self.swetch_scene(self.main_stage)
 
                     elif (x, y) == (90, 450):
                         map = matrix_map_level4
+                        self.F2 = 4
+                        drawing.F3 = 4
+                        player.x, player.y = 2200, 1450
                         running = False
                         self.swetch_scene(self.main_stage)
                     elif (x, y) == (440, 450):
                         map = matrix_map_level5
+                        self.F2 = 5
+                        drawing.F3 = 5
                         running = False
                         self.swetch_scene(self.main_stage)
                     elif (x, y) == (790, 450):
                         map = matrix_map_level6
+                        self.F2 = 6
+                        drawing.F3 = 6
+                        player.x, player.y = 150, 150
                         running = False
                         self.swetch_scene(self.main_stage)
 
@@ -228,6 +259,16 @@ class Menu:
                                     world_map[(i * TILE, j * TILE)] = 27
                                 elif char == 28:
                                     world_map[(i * TILE, j * TILE)] = 28
+                                elif char == 29:
+                                    world_map[(i * TILE, j * TILE)] = 29
+                                elif char == 30:
+                                    world_map[(i * TILE, j * TILE)] = 30
+                                elif char == 90:
+                                    world_map[(i * TILE, j * TILE)] = 90
+                                elif char == 91:
+                                    world_map[(i * TILE, j * TILE)] = 91
+                                elif char == 92:
+                                    world_map[(i * TILE, j * TILE)] = 92
 
             text = self.font.render("Back", True, color)
             sc.fill((56, 34, 32))
@@ -268,7 +309,8 @@ class Menu:
                     self.swetch_scene(self.main_stage)
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and ch_y == self.text_y1 + 55:
-                    self.menu()
+                    running = False
+                    self.swetch_scene(self.menu)
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and ch_y == self.text_y1 + 135:
                     exit()
@@ -302,10 +344,11 @@ class Menu:
                         self.ch_y = self.text_y1 - 30
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and self.ch_y == self.text_y1 - 30:
-                    self.swetch_scene(self.load_level)
                     running = False
+                    self.swetch_scene(self.load_level)
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and self.ch_y == self.text_y1 + 55:
+                    running = False
                     self.options_scene()
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and self.ch_y == self.text_y1 + 135:
@@ -314,8 +357,24 @@ class Menu:
             self.draw(sc)
             pygame.display.flip()
 
+    def scene_you_win(self):
+        font = pygame.font.Font('fonts/8-BIT WONDER.TTF', 50)
+        text = font.render('YOU WIN', True, (155, 45, 48))
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    running = False
+                    self.swetch_scene(self.menu)
+            sc.fill((0, 0, 250))
+            sc.blit(text, (WIDTH // 2 - 400, HEIGHT // 2))
+            pygame.display.flip()
+
     def main_stage(self):
         # >>>>>>> origin/main
+        drawing.weapon *= 0
         running = True
         while running:
             for event in pygame.event.get():
@@ -325,9 +384,34 @@ class Menu:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_e:
                     running = False
                     self.swetch_scene(self.pause)
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
+                    drawing.weapon = 1
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
+                    drawing.weapon = 2
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_3:
+                    drawing.weapon = 3
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1 and not player.shot:
                         player.shot = True
+                if player.F == 1 and self.F2 == 1:
+                    running = False
+                    self.swetch_scene(self.scene_you_win)
+                elif player.F == 2 and self.F2 == 2:
+                    running = False
+                    self.swetch_scene(self.scene_you_win)
+                elif player.F == 3 and self.F2 == 3:
+                    running = False
+                    self.swetch_scene(self.scene_you_win)
+                elif player.F == 4 and self.F2 == 4:
+                    running = False
+                    self.swetch_scene(self.scene_you_win)
+                elif player.F == 5 and self.F2 == 5:
+                    running = False
+                    self.swetch_scene(self.scene_you_win)
+                elif player.F == 6 and self.F2 == 6:
+                    running = False
+                    self.swetch_scene(self.scene_you_win)
+            # print(player.F, self.F2)
 
             player.movement()
             sc.fill(BLACK)
