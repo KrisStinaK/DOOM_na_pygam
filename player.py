@@ -70,20 +70,20 @@ class Player:
             exit()
 
         if keys[pygame.K_w]:
-            dx = player_speed * cos_a
-            dy = player_speed * sin_a
+            dx = player_speed * cos_a * 1.5
+            dy = player_speed * sin_a * 1.5
             self.detect_collision(dx, dy)
         if keys[pygame.K_s]:
-            dx = -player_speed * cos_a
-            dy = -player_speed * sin_a
+            dx = -player_speed * cos_a * 1.5
+            dy = -player_speed * sin_a * 1.5
             self.detect_collision(dx, dy)
         if keys[pygame.K_a]:
-            dx = player_speed * sin_a
-            dy = -player_speed * cos_a
+            dx = player_speed * sin_a * 1.5
+            dy = -player_speed * cos_a * 1.5
             self.detect_collision(dx, dy)
         if keys[pygame.K_d]:
-            dx = -player_speed * sin_a
-            dy = player_speed * cos_a
+            dx = -player_speed * sin_a * 1.5
+            dy = player_speed * cos_a * 1.5
             self.detect_collision(dx, dy)
         if self.x > 2210 and self.y < 180:
             self.F = 1

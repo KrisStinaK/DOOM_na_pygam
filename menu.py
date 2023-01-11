@@ -5,6 +5,7 @@ from drawing import Drawing
 from ray_casting import ray_casting, ray_casting_walls
 from Sprites import *
 from map_ import *
+from interaction import *
 
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -14,10 +15,12 @@ clock = pygame.time.Clock()
 sprites = Sprites()
 player = Player(sprites)
 drawing = Drawing(sc, sc_map, player)
+interaction = Interaction(player, sprites, drawing)
 music = pygame.mixer.Sound("song/01 Title Screen.mp3")
 music2 = pygame.mixer.Sound("song/02 At Doom's Gate.mp3")
 # scene
 current_scene = None
+
 
 class Menu:
     def __init__(self):
@@ -436,6 +439,8 @@ class Menu:
             drawing.fps(clock)
             drawing.mini_map(player)
             drawing.player_weapon([wall_shot, sprites.sprite_shot])
+            interaction.interaction_objects()
+            interaction.npc_action()
 
             music2.play()
 
