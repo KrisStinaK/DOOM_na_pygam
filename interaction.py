@@ -1,6 +1,7 @@
 from settings import *
 from map_ import *
 from ray_casting import mapping
+from drawing import Drawing
 import math
 import pygame
 
@@ -34,10 +35,14 @@ def ray_casting_npc_player(npc_x, npc_y, world_map, player_pos):
 
 
 class Interaction:
-    def __init__(self, player, sprites, drawing):
+    def __init__(self, player, sprites, drawing, sc, sc_xp):
         self.player = player
         self.sprites = sprites
         self.drawing = drawing
+        self.sc = sc
+        self.sc_xp = sc_xp
+        self.x = 350
+        self.pain_sound = pygame.mixer.Sound('song/звук монстра.wav')
 
     def interaction_objects(self):
         if self.player.shot and self.drawing.shot_animation_trigger:
@@ -45,6 +50,8 @@ class Interaction:
                 if obj.is_on_fire[1] and obj.distance < 500:
                     if obj.is_dead != 'immortal' and not obj.is_dead:
                         if ray_casting_npc_player(obj.x, obj.y, world_map, self.player.pos):
+                            if obj.flag == 'npc':
+                                self.pain_sound.play()
                             obj.is_dead = True
                             obj.blocked = None
                             self.drawing.shot_animation_trigger = False
@@ -66,3 +73,10 @@ class Interaction:
             dy = obj.y - self.player.pos[1]
             obj.x = obj.x + 1 if dx < 0 else obj.x - 1
             obj.y = obj.y + 1 if dy < 0 else obj.y - 1
+        if abs(obj.distance) < 50:
+            pygame.draw.rect(self.sc_xp, COLOR_CONTROL_POINT, (0, 0, self.x - 10, 20))
+            self.sc.blit(self.sc_xp, (350, 50))
+
+    def play_music(self):
+        pygame.mixer.pre_init(44100, -16, 2, 2048)
+        pygame.mixer.init()

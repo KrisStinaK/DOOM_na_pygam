@@ -1,23 +1,25 @@
 import pygame
-
 from player import Player
-from drawing import Drawing
 from ray_casting import ray_casting, ray_casting_walls
 from Sprites import *
 from map_ import *
 from interaction import *
 
+
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.mouse.set_visible(False)
 sc_map = pygame.Surface(MINI_MAP_RES)
+sc_xp = pygame.Surface((350, 20))
 clock = pygame.time.Clock()
 sprites = Sprites()
 player = Player(sprites)
-drawing = Drawing(sc, sc_map, player)
-interaction = Interaction(player, sprites, drawing)
-music = pygame.mixer.Sound("song/01 Title Screen.mp3")
-music2 = pygame.mixer.Sound("song/02 At Doom's Gate.mp3")
+drawing = Drawing(sc, sc_map, player, sc_xp)
+interaction = Interaction(player, sprites, drawing, sc, sc_xp)
+interaction.play_music()
+music = pygame.mixer.Sound('song/sound_win.mp3')
+music2 = pygame.mixer.Sound('song/01 Title Screen.mp3')
+game_musuc = pygame.mixer.Sound('song/игра.mp3')
 # scene
 current_scene = None
 
@@ -63,8 +65,8 @@ class Menu:
                 if event.type == pygame.KEYDOWN and pygame.K_SPACE:
                     self.swetch_scene(self.menu)
                     running = False
+            music2.play()
             sc.blit(image_scene_1, (0, 0))
-            music.play()
             pygame.display.flip()
 
     def options_scene(self):
@@ -157,9 +159,6 @@ class Menu:
                         color = (155, 45, 48)
                         x, y = 90, 450
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                    # if (x, y) == (90, 90):
-                    #     running = False
-                    #     self.swetch_scene(self.main_stage)
                     if (x, y) == (90, 90):
                         map = matrix_map
                         self.F2 = 1
@@ -321,7 +320,6 @@ class Menu:
                     self.swetch_scene(self.main_stage)
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
                         and ch_y == self.text_y1 + 55:
-                    music2.stop()
                     running = False
                     self.swetch_scene(self.menu)
                 if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) \
@@ -371,6 +369,8 @@ class Menu:
             pygame.display.flip()
 
     def scene_you_win(self):
+        music.play()
+        game_musuc.stop()
         font = pygame.font.Font('fonts/8-BIT WONDER.TTF', 50)
         font2 = pygame.font.Font('fonts/8-BIT WONDER.TTF', 30)
         text = font.render('LEVEL UP', True, (0, 0, 0))
@@ -383,13 +383,18 @@ class Menu:
                     exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     running = False
-                    self.swetch_scene(self.load_level)
+                    self.load_level()
             sc.blit(image, (0, 0))
             sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
             sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
             pygame.display.flip()
 
+        sc.blit(sc_xp, (350, 50))
+
     def main_stage(self):
+        music2.stop()
+        game_musuc.stop()
+        game_musuc.play()
         # >>>>>>> origin/main
         drawing.weapon *= 0
         running = True
@@ -428,7 +433,6 @@ class Menu:
                 elif player.F == 6 and self.F2 == 6:
                     running = False
                     self.swetch_scene(self.scene_you_win)
-            # print(player.F, self.F2)
 
             player.movement()
             sc.fill(BLACK)
@@ -441,8 +445,6 @@ class Menu:
             drawing.player_weapon([wall_shot, sprites.sprite_shot])
             interaction.interaction_objects()
             interaction.npc_action()
-
-            music2.play()
 
             pygame.display.flip()
             clock.tick()

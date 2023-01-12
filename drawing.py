@@ -5,11 +5,11 @@ from settings import *
 from map_ import mini_map
 from collections import deque
 
-
 class Drawing:
-    def __init__(self, sc, sc_map, player):
+    def __init__(self, sc, sc_map, player, sc_xp):
         self.sc = sc
         self.sc_map = sc_map
+        self.sc_xp = sc_xp
         self.player = player
         self.F3 = 0
         self.weapon = 0
@@ -77,9 +77,10 @@ class Drawing:
         self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 600)
         self.shot_length = len(self.weapon_shot_animation)
         self.shot_length_count = 0
-        self.shot_animation_speed = 3
+        self.shot_animation_speed = 2
         self.shot_animation_count = 0
         self.shot_animation_trigger = True
+        self.shot_sound = pygame.mixer.Sound('song/выстрел.wav')
 
         # sfx
         self.sfx = deque([pygame.image.load(f'resources/gun/sfx/{i}.png').convert_alpha() for i in range(9)])
@@ -140,6 +141,8 @@ class Drawing:
             self.weapon_shot_animation = self.weapon_shot_animation_3
             self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 450)
         if self.player.shot:
+            if not self.shot_length_count:
+                self.shot_sound.play()
             self.shot_projection = min(shots)[1] // 2
             shot_sprite = self.weapon_shot_animation[0]
             self.sc.blit(shot_sprite, self.weapon_pos)
