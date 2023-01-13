@@ -16,7 +16,7 @@ class Sprites:
                 'animation': deque(
                     [pygame.image.load(f'resources/sprites/devil/animation/{i}.png').convert_alpha()
                      for i in range(9)]),
-                'animation_dist': 500,
+                'animation_dist': 800,
                 'animation_speed': 15,
                 'blocked': True,
                 'death_animation': deque([pygame.image.load(f'resources/sprites/devil/death/{i}.png').convert_alpha()
@@ -34,7 +34,7 @@ class Sprites:
                 'scale': (1.1, 1.1),
                 'animation': deque(
                     [pygame.image.load(f'resources/sprites/monster/animation/{i}.png').convert_alpha() for i in range(6)]),
-                'animation_dist': 300,
+                'animation_dist': 800,
                 'animation_speed': 12,
                 'blocked': True,
                 'death_animation': deque([pygame.image.load(f'resources/sprites/monster/death/{i}.png').convert_alpha()
@@ -52,7 +52,7 @@ class Sprites:
                 'scale': (1.1, 1.1),
                 'animation': deque(
                     [pygame.image.load(f'resources/sprites/brown ball/animation/{i}.png').convert_alpha() for i in range(4)]),
-                'animation_dist': 300,
+                'animation_dist': 800,
                 'animation_speed': 12,
                 'blocked': True,
                 'death_animation': deque([pygame.image.load(f'resources/sprites/brown ball/death/{i}.png').convert_alpha()
@@ -202,16 +202,32 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_devil'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_fire'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_fire'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_fire'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_fire'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_fire'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_blue_pin'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_blue_pin'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_blue_pin'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_green_pin'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_green_pin'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_green_pin'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_grey_pin'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_grey_pin'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_grey_pin'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
 
             # static sprite
@@ -219,6 +235,13 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_rip'], (8.8, 5.6)),
             Sprite_obj(self.sprite_parametrs['sprite_rip'], (5.8, 7)),
             Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (10.5, 7.5)),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (8.8, 5.6)),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (5.8, 7)),
+            Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
+            Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
+            Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
+
         ]
 
     @property

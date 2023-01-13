@@ -10,7 +10,8 @@ pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.mouse.set_visible(False)
 sc_map = pygame.Surface(MINI_MAP_RES)
-sc_xp = pygame.Surface((350, 20))
+sc_xp = pygame.Surface((800, 100))
+sc_cartridges = pygame.Surface((20, 150))
 clock = pygame.time.Clock()
 sprites = Sprites()
 player = Player(sprites)
@@ -81,6 +82,7 @@ class Menu:
         text8 = font.render('"Enter"        выбрать', True, WHITE)
         text9 = font.render('"Мышь"        управление обзора', True, WHITE)
         textx = font.render('"1, 2, 3"        смена оружия', True, WHITE)
+        textx1 = font.render('"R"        перезарядка', True, WHITE)
         running = True
         while running:
             for event in pygame.event.get():
@@ -97,10 +99,11 @@ class Menu:
             sc.blit(text4, (WIDTH // 2 - 400, 350))
             sc.blit(text5, (WIDTH // 2 - 400, 400))
             sc.blit(text6, (WIDTH // 2 - 400, 450))
-            sc.blit(text7, (WIDTH // 2 - 400 - 100, 550))
-            sc.blit(text8, (WIDTH // 2 - 400 - 100, 600))
-            sc.blit(text9, (WIDTH // 2 - 400 - 100, 650))
-            sc.blit(textx, (WIDTH // 2 - 400 - 100, 700))
+            sc.blit(text7, (WIDTH // 2, 250))
+            sc.blit(text8, (WIDTH // 2, 300))
+            sc.blit(text9, (WIDTH // 2, 350))
+            sc.blit(textx, (WIDTH // 2, 400))
+            sc.blit(textx1, (WIDTH // 2, 450))
             pygame.display.flip()
 
     def load_level(self):
@@ -383,13 +386,32 @@ class Menu:
                     exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     running = False
-                    self.load_level()
+                    self.swetch_scene(self.load_level)
             sc.blit(image, (0, 0))
             sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
             sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
             pygame.display.flip()
 
-        sc.blit(sc_xp, (350, 50))
+    def game_over(self):
+        music.play()
+        game_musuc.stop()
+        font = pygame.font.Font('fonts/8-BIT WONDER.TTF', 50)
+        font2 = pygame.font.Font('fonts/8-BIT WONDER.TTF', 30)
+        text = font.render('GAME OVER', True, (0, 0, 0))
+        text2 = font2.render('press "Enter" to return to the menu', True, (0, 0, 0))
+        image = pygame.image.load('img/you_win.jpg')
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    running = False
+                    self.swetch_scene(self.load_level)
+            sc.blit(image, (0, 0))
+            sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
+            sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
+            pygame.display.flip()
 
     def main_stage(self):
         music2.stop()
@@ -397,6 +419,8 @@ class Menu:
         game_musuc.play()
         # >>>>>>> origin/main
         drawing.weapon *= 0
+        sc_cartridges.fill((0, 0, 255))
+        sc_xp.fill((100, 100, 100))
         running = True
         while running:
             for event in pygame.event.get():
@@ -412,9 +436,24 @@ class Menu:
                     drawing.weapon = 2
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_3:
                     drawing.weapon = 3
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+                    drawing.count_ammo = 15
+                    sc_cartridges.fill((0, 0, 255))
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1 and not player.shot:
                         player.shot = True
+                        drawing.count_ammo -= 1
+                        if drawing.count_ammo < 0:
+                            player.shot = False
+                            drawing.count_ammo = 0
+                if interaction.a < 20:
+                    drawing.count_armor -= 1
+                    if drawing.count_armor < 0:
+                        drawing.count_armor = 0
+                        if drawing.count_health < 0:
+                            drawing.count_health = 0
+                            running = False
+                            self.swetch_scene(self.game_over)
                 if player.F == 1 and self.F2 == 1:
                     running = False
                     self.swetch_scene(self.scene_you_win)
@@ -437,6 +476,7 @@ class Menu:
             player.movement()
             sc.fill(BLACK)
 
+            drawing.ammo()
             drawing.background(player.angle)
             walls, wall_shot = ray_casting_walls(player, drawing.textures)
             drawing.world(walls + [ob.obj_locate(player) for ob in sprites.list_object])
@@ -445,6 +485,7 @@ class Menu:
             drawing.player_weapon([wall_shot, sprites.sprite_shot])
             interaction.interaction_objects()
             interaction.npc_action()
+            sc.blit(sc_xp, (200, 700))
 
             pygame.display.flip()
             clock.tick()

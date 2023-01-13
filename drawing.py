@@ -13,7 +13,12 @@ class Drawing:
         self.player = player
         self.F3 = 0
         self.weapon = 0
+        self.count_ammo = 15
+        self.count_health = 100
+        self.count_armor = 100
         self.font = pygame.font.SysFont('Arial', 36, bold=True)
+        self.font2 = pygame.font.SysFont('fonts/8-BIT WONDER.TTF', 50, bold=True)
+        self.font3 = pygame.font.SysFont('fonts/8-BIT WONDER.TTF', 30, bold=True)
         # загрузка текстур (можно добавить больше, но потом нужно изменить цифру на карте)
         # под S небо (для него не нужно менять карту)
         self.textures = {1: pygame.image.load('img/стена3.png').convert(),
@@ -58,23 +63,24 @@ class Drawing:
                          }
         self.k = randint(12, 19)
         # weapon
-        self.weapon_base_sprite_1 = pygame.image.load('resources/gun/static/standart_weapon.png').convert_alpha()
+        self.weapon_base_sprite_1 = pygame.image.load('resources/gun/static/0.png').convert_alpha()
         self.weapon_shot_animation_1 = deque([pygame.image.load(f'resources/gun/shot/{i}.png').convert_alpha()
                                             for i in range(20)])
 
         self.weapon_base_sprite_2 = pygame.image.load('resources/gun_2/static/0.png').convert_alpha()
         self.weapon_shot_animation_2 = deque([pygame.image.load(f'resources/gun_2/shot/{i}.png').convert_alpha()
-                                              for i in range(3)])
+                                              for i in range(8)])
 
         self.weapon_base_sprite_3 = pygame.image.load('resources/gun_3/static/0.png').convert_alpha()
         self.weapon_shot_animation_3 = deque([pygame.image.load(f'resources/gun_3/shot/{i}.png').convert_alpha()
                                               for i in range(5)])
 
+
         self.weapon_base_sprite = self.weapon_base_sprite_1 # значение по умолчанию, нужно для смены оружия
         self.weapon_shot_animation = self.weapon_shot_animation_1 # анимация по умолчанию
 
         self.weapon_rect = self.weapon_base_sprite.get_rect()
-        self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 600)
+        self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4 - 100, 450)
         self.shot_length = len(self.weapon_shot_animation)
         self.shot_length_count = 0
         self.shot_animation_speed = 2
@@ -105,6 +111,23 @@ class Drawing:
         render = self.font.render(display_fps, 0, RED)
         self.sc.blit(render, FPS_POS)
 
+    def ammo(self):
+        self.sc_xp.fill((100, 100, 100))
+        render_ammo = self.font2.render(str(self.count_ammo), 0, RED)
+        ammo = self.font3.render('AMMO', 0, WHITE)
+        health = self.font3.render('HEALTH', 0, WHITE)
+        render_health = self.font2.render(str(self.count_health) + '%', 0, RED)
+        armor = self.font3.render('ARMOR', 0, WHITE)
+        render_armor = self.font2.render(str(self.count_armor) + '%', 0, RED)
+        image = pygame.image.load('img/xedfr.jpg')
+        self.sc_xp.blit(render_ammo, (60, 20))
+        self.sc_xp.blit(ammo, (40, 60))
+        self.sc_xp.blit(render_health, (150, 20))
+        self.sc_xp.blit(health, (150, 60))
+        self.sc_xp.blit(image, (344, 0))
+        self.sc_xp.blit(armor, (550, 60))
+        self.sc_xp.blit(render_armor, (550, 20))
+
     def mini_map(self, player):
         self.sc_map.fill(BLACK)
         map_x, map_y = player.x // MAP_SCALE, player.y // MAP_SCALE
@@ -124,22 +147,22 @@ class Drawing:
                 pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (150, 10, MAP_TILE, MAP_TILE))
             elif self.F3 == 6:
                 pygame.draw.rect(self.sc_map, COLOR_CONTROL_POINT, (180, 80, MAP_TILE, MAP_TILE))
-            pygame.draw.rect(self.sc_map, SANDY, (x, y, MAP_TILE, MAP_TILE))
+            pygame.draw.rect(self.sc_map, (0, 0, 255), (x, y, MAP_TILE, MAP_TILE))
         self.sc.blit(self.sc_map, MAP_POS)
 
     def player_weapon(self, shots):
         if self.weapon == 1:
             self.weapon_base_sprite = self.weapon_base_sprite_1
             self.weapon_shot_animation = self.weapon_shot_animation_1
-            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 600)
+            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4 - 100, 450)
         elif self.weapon == 2:
             self.weapon_base_sprite = self.weapon_base_sprite_2
             self.weapon_shot_animation = self.weapon_shot_animation_2
-            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 500)
+            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4 - 100, 500)
         elif self.weapon == 3:
             self.weapon_base_sprite = self.weapon_base_sprite_3
             self.weapon_shot_animation = self.weapon_shot_animation_3
-            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 450)
+            self.weapon_pos = (HALF_WIDTH - self.weapon_rect.width // 4, 400)
         if self.player.shot:
             if not self.shot_length_count:
                 self.shot_sound.play()

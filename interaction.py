@@ -41,7 +41,7 @@ class Interaction:
         self.drawing = drawing
         self.sc = sc
         self.sc_xp = sc_xp
-        self.x = 350
+        self.a = None
         self.pain_sound = pygame.mixer.Sound('song/звук монстра.wav')
 
     def interaction_objects(self):
@@ -68,14 +68,13 @@ class Interaction:
                     obj.npc_action_trigger = False
 
     def npc_move(self, obj):
-        if abs(obj.distance) < TILE * 3:
+        self.a = abs(obj.distance)
+        if abs(obj.distance) < TILE * 7:
             dx = obj.x - self.player.pos[0]
             dy = obj.y - self.player.pos[1]
             obj.x = obj.x + 1 if dx < 0 else obj.x - 1
             obj.y = obj.y + 1 if dy < 0 else obj.y - 1
-        if abs(obj.distance) < 50:
-            pygame.draw.rect(self.sc_xp, COLOR_CONTROL_POINT, (0, 0, self.x - 10, 20))
-            self.sc.blit(self.sc_xp, (350, 50))
+
 
     def play_music(self):
         pygame.mixer.pre_init(44100, -16, 2, 2048)
