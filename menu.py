@@ -386,7 +386,8 @@ class Menu:
                     exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     running = False
-                    self.swetch_scene(self.load_level)
+                    self.swetch_scene(self.main_stage)
+
             sc.blit(image, (0, 0))
             sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
             sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
@@ -450,6 +451,7 @@ class Menu:
                     drawing.count_armor -= 1
                     if drawing.count_armor < 0:
                         drawing.count_armor = 0
+                        drawing.count_health -= 1
                         if drawing.count_health < 0:
                             drawing.count_health = 0
                             running = False
@@ -495,3 +497,6 @@ class Menu:
         while current_scene is not None:
             current_scene()
             # >>>>>>> origin/main
+
+a = Menu()
+a.run()
