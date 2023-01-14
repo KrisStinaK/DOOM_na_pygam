@@ -98,6 +98,7 @@ class Player:
         elif 1900 > self.x > 1800 and 890 < self.y < 900:
             self.F = 6
         self.angle %= DOUBLE_PI
+        print(self.x, self.y)
 
     def mouse_control(self):
         if pygame.mouse.get_focused():

@@ -69,7 +69,7 @@ class Interaction:
 
     def npc_move(self, obj):
         self.a = abs(obj.distance)
-        if abs(obj.distance) < TILE * 7:
+        if abs(obj.distance) < TILE:
             dx = obj.x - self.player.pos[0]
             dy = obj.y - self.player.pos[1]
             obj.x = obj.x + 1 if dx < 0 else obj.x - 1

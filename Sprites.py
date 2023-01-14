@@ -63,6 +63,66 @@ class Sprites:
                 'side': 30,
                 'obj_action': []
             },
+            'sprite_skull': {
+                'sprite': pygame.image.load(f'resources/sprites/skull/static/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.3,
+                'scale': (1.1, 1.1),
+                'animation': deque(
+                    [pygame.image.load(f'resources/sprites/skull/animation/{i}.png').convert_alpha() for i in
+                     range(2)]),
+                'animation_dist': 800,
+                'animation_speed': 12,
+                'blocked': True,
+                'death_animation': deque(
+                    [pygame.image.load(f'resources/sprites/skull/death/{i}.png').convert_alpha()
+                     for i in range(8)]),
+                'is_dead': None,
+                'dead_shift': 0.6,
+                'flag': 'npc',
+                'side': 30,
+                'obj_action': []
+            },
+            'sprite_horned': {
+                'sprite': pygame.image.load(f'resources/sprites/horned/static/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.3,
+                'scale': (1.1, 1.1),
+                'animation': deque(
+                    [pygame.image.load(f'resources/sprites/horned/animation/{i}.png').convert_alpha() for i in
+                     range(4)]),
+                'animation_dist': 800,
+                'animation_speed': 12,
+                'blocked': True,
+                'death_animation': deque(
+                    [pygame.image.load(f'resources/sprites/horned/death/{i}.png').convert_alpha()
+                     for i in range(6)]),
+                'is_dead': None,
+                'dead_shift': 0.6,
+                'flag': 'npc',
+                'side': 30,
+                'obj_action': []
+            },
+            'sprite_uncle': {
+                'sprite': pygame.image.load(f'resources/sprites/uncle/static/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.3,
+                'scale': (1.1, 1.1),
+                'animation': deque(
+                    [pygame.image.load(f'resources/sprites/uncle/animation/{i}.png').convert_alpha() for i in
+                     range(6)]),
+                'animation_dist': 800,
+                'animation_speed': 12,
+                'blocked': True,
+                'death_animation': deque(
+                    [pygame.image.load(f'resources/sprites/uncle/death/{i}.png').convert_alpha()
+                     for i in range(6)]),
+                'is_dead': None,
+                'dead_shift': 0.6,
+                'flag': 'npc',
+                'side': 30,
+                'obj_action': []
+            },
             'sprite_barrel': {
                 'sprite': pygame.image.load(f'resources/sprites/static_sprites/barrel/structure/бочка.png').convert_alpha(),
                 'viewing_angles': None,
@@ -147,7 +207,7 @@ class Sprites:
                 'animation': [],
                 'animation_dist': None,
                 'animation_speed': None,
-                'blocked': None,
+                'blocked': False,
                 'death_animation': [None],
                 'is_dead': None,
                 'dead_shift': 0.6,
@@ -164,7 +224,39 @@ class Sprites:
                 'animation': [],
                 'animation_dist': None,
                 'animation_speed': None,
-                'blocked': None,
+                'blocked': False,
+                'death_animation': [None],
+                'is_dead': None,
+                'dead_shift': 0.6,
+                'flag': 'decor',
+                'side': 30,
+                'obj_action': []
+            },
+            'sprite_armor': {
+                'sprite': pygame.image.load(f'resources/sprites/static_sprites/armor.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 1.8,
+                'scale': (0.4, 0.4),
+                'animation': [],
+                'animation_dist': None,
+                'animation_speed': None,
+                'blocked': False,
+                'death_animation': [None],
+                'is_dead': None,
+                'dead_shift': 0.6,
+                'flag': 'decor',
+                'side': 30,
+                'obj_action': []
+            },
+            'sprite_kit': {
+                'sprite': pygame.image.load(f'resources/sprites/static_sprites/kit.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 1.8,
+                'scale': (0.4, 0.4),
+                'animation': [],
+                'animation_dist': None,
+                'animation_speed': None,
+                'blocked': False,
                 'death_animation': [None],
                 'is_dead': None,
                 'dead_shift': 0.6,
@@ -181,7 +273,7 @@ class Sprites:
                     [pygame.image.load(f'resources/sprites/static_sprites/fire/animation/{i}.png').convert_alpha() for i in range(3)]),
                 'animation_dist': 800,
                 'animation_speed': 12,
-                'blocked': None,
+                'blocked': False,
                 'death_animation': [None],
                 'is_dead': None,
                 'dead_shift': 0.6,
@@ -195,8 +287,6 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_devil'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_devil'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_devil'], (randint(5, 23), randint(2, 15))),
-            Sprite_obj(self.sprite_parametrs['sprite_devil'], (randint(5, 23), randint(2, 15))),
-            Sprite_obj(self.sprite_parametrs['sprite_devil'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_barrel'], (randint(5, 23), randint(2, 15))),
@@ -220,24 +310,32 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
-            Sprite_obj(self.sprite_parametrs['sprite_monster'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
-            Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
-            Sprite_obj(self.sprite_parametrs['sprite_brown_ball'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_skull'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_skull'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_skull'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_horned'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_horned'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_horned'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_uncle'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_uncle'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_uncle'], (randint(5, 23), randint(2, 15))),
+
 
             # static sprite
-            Sprite_obj(self.sprite_parametrs['sprite_rip'], (10.5, 7.5)),
-            Sprite_obj(self.sprite_parametrs['sprite_rip'], (8.8, 5.6)),
-            Sprite_obj(self.sprite_parametrs['sprite_rip'], (5.8, 7)),
-            Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
-            Sprite_obj(self.sprite_parametrs['sprite_rip'], (10.5, 7.5)),
-            Sprite_obj(self.sprite_parametrs['sprite_rip'], (8.8, 5.6)),
-            Sprite_obj(self.sprite_parametrs['sprite_rip'], (5.8, 7)),
-            Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
-            Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
-            Sprite_obj(self.sprite_parametrs['sprite_torch'], (9.8, 14.8)),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_rip'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_torch'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_torch'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_torch'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_armor'], (10, 6)),
+            Sprite_obj(self.sprite_parametrs['sprite_kit'], (10, 7)),
 
         ]
 
@@ -265,6 +363,7 @@ class Sprite_obj:
         self.obj_action = parameters['obj_action'].copy()
         self.x, self.y = pos[0] * TILE, pos[1] * TILE
         self.side = parameters['side']
+        self.position = self.x - self.side // 2, self.y - self.side // 2
 
         self.dead_animation_count = 0
         self.animation_count = 0
@@ -363,8 +462,11 @@ class Sprite_obj:
                 self.dead_animation_count = 0
         return self.dead_sprite
 
-    #    if self.animation_count < self.animation_speed:
-    #    else:
-    #        self.obj_action.rotate()
-    #        self.animation_count = 0
-    #    return sprite_object
+    # def npc_in_action(self):
+    #     sprite_object = self.obj_action[0]
+    #     if self.animation_count < self.animation_speed:
+    #         self.animation_count += 1
+    #     else:
+    #         self.obj_action.rotate()
+    #         self.animation_count = 0
+    #     return sprite_object

@@ -207,7 +207,6 @@ class Menu:
                     if color == (0, 0, 170):
                         running = False
                         self.swetch_scene(self.menu)
-
                     for j, row in enumerate(map):
                         for i, char in enumerate(row):
                             if char:
@@ -386,7 +385,7 @@ class Menu:
                     exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     running = False
-                    self.swetch_scene(self.main_stage)
+                    self.swetch_scene(self.menu)
 
             sc.blit(image, (0, 0))
             sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
