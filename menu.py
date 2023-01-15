@@ -11,7 +11,6 @@ sc = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.mouse.set_visible(False)
 sc_map = pygame.Surface(MINI_MAP_RES)
 sc_xp = pygame.Surface((800, 100))
-sc_cartridges = pygame.Surface((20, 150))
 clock = pygame.time.Clock()
 sprites = Sprites()
 player = Player(sprites)
@@ -41,7 +40,9 @@ class Menu:
         self.text_y3 = HEIGHT // 1.4 - self.text.get_height() // 2
         self.ch_x, self.ch_y = self.text_x1 - 120, self.text_y1 - 30
         self.map = matrix_map
-        self.F2 = 0
+        self.F_aptechka = True
+        self.F_armor = True
+        self.F_map = 0
 
     def draw(self, sc):
         sc.fill((56, 34, 32))
@@ -114,7 +115,7 @@ class Menu:
         image_5 = pygame.image.load('img/level_4.jpg')
         image_6 = pygame.image.load('img/level_5.jpg')
         map = matrix_map
-        self.F2 = 0
+        self.F_map = 0
         color = (155, 45, 48)
         x, y = 90, 90
         running = True
@@ -164,27 +165,27 @@ class Menu:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     if (x, y) == (90, 90):
                         map = matrix_map
-                        self.F2 = 1
+                        self.F_map = 1
                         drawing.F3 = 1
                         running = False
                         self.swetch_scene(self.main_stage)
                     elif (x, y) == (440, 90):
                         map = matrix_map_level2
-                        self.F2 = 2
+                        self.F_map = 2
                         drawing.F3 = 2
                         running = False
                         self.swetch_scene(self.main_stage)
 
                     elif (x, y) == (790, 90):
                         map = matrix_map_level3
-                        self.F2 = 3
+                        self.F_map = 3
                         drawing.F3 = 3
                         running = False
                         self.swetch_scene(self.main_stage)
 
                     elif (x, y) == (90, 450):
                         map = matrix_map_level4
-                        self.F2 = 4
+                        self.F_map = 4
                         drawing.F3 = 4
                         player.x, player.y = 2200, 1450
                         running = False
@@ -192,13 +193,13 @@ class Menu:
                     elif (x, y) == (440, 450):
                         map = matrix_map_level5
                         player.x, player.y = 1180, 165
-                        self.F2 = 5
+                        self.F_map = 5
                         drawing.F3 = 5
                         running = False
                         self.swetch_scene(self.main_stage)
                     elif (x, y) == (790, 450):
                         map = matrix_map_level6
-                        self.F2 = 6
+                        self.F_map = 6
                         drawing.F3 = 6
                         player.x, player.y = 150, 150
                         running = False
@@ -385,7 +386,7 @@ class Menu:
                     exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     running = False
-                    self.swetch_scene(self.menu)
+
 
             sc.blit(image, (0, 0))
             sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
@@ -418,8 +419,7 @@ class Menu:
         game_musuc.stop()
         game_musuc.play()
         # >>>>>>> origin/main
-        drawing.weapon *= 0
-        sc_cartridges.fill((0, 0, 255))
+        drawing.weapon = 0
         sc_xp.fill((100, 100, 100))
         running = True
         while running:
@@ -438,7 +438,6 @@ class Menu:
                     drawing.weapon = 3
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                     drawing.count_ammo = 15
-                    sc_cartridges.fill((0, 0, 255))
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1 and not player.shot:
                         player.shot = True
@@ -455,22 +454,30 @@ class Menu:
                             drawing.count_health = 0
                             running = False
                             self.swetch_scene(self.game_over)
-                if player.F == 1 and self.F2 == 1:
+                if player.F == 7 and self.F_aptechka and drawing.count_health != 100:
+                    drawing.count_health = 100
+                    self.F_aptechka = False
+                    sprites.list_object = sprites.list_object[0:-1]
+                if player.F == 8 and self.F_armor:
+                    drawing.count_armor = 100
+                    self.F_armor = False
+                    sprites.list_object = sprites.list_object[0:-2] + sprites.a
+                if player.F == 1 and self.F_map == 1:
                     running = False
                     self.swetch_scene(self.scene_you_win)
-                elif player.F == 2 and self.F2 == 2:
+                elif player.F == 2 and self.F_map == 2:
                     running = False
                     self.swetch_scene(self.scene_you_win)
-                elif player.F == 3 and self.F2 == 3:
+                elif player.F == 3 and self.F_map == 3:
                     running = False
                     self.swetch_scene(self.scene_you_win)
-                elif player.F == 4 and self.F2 == 4:
+                elif player.F == 4 and self.F_map == 4:
                     running = False
                     self.swetch_scene(self.scene_you_win)
-                elif player.F == 5 and self.F2 == 5:
+                elif player.F == 5 and self.F_map == 5:
                     running = False
                     self.swetch_scene(self.scene_you_win)
-                elif player.F == 6 and self.F2 == 6:
+                elif player.F == 6 and self.F_map == 6:
                     running = False
                     self.swetch_scene(self.scene_you_win)
 

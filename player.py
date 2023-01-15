@@ -97,6 +97,10 @@ class Player:
             self.F = 5
         elif 1900 > self.x > 1800 and 890 < self.y < 900:
             self.F = 6
+        elif 855 > self.x > 825 and 855 > self.y > 825:
+            self.F = 7
+        elif 800 > self.x > 595 and 400 > self.y > 265:
+            self.F = 8
         self.angle %= DOUBLE_PI
         print(self.x, self.y)
 

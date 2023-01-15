@@ -15,7 +15,7 @@ class Drawing:
         self.weapon = 0
         self.count_ammo = 15
         self.count_health = 100
-        self.count_armor = 100
+        self.count_armor = 0
         self.font = pygame.font.SysFont('Arial', 36, bold=True)
         self.font2 = pygame.font.SysFont('fonts/8-BIT WONDER.TTF', 50, bold=True)
         self.font3 = pygame.font.SysFont('fonts/8-BIT WONDER.TTF', 30, bold=True)

@@ -334,10 +334,11 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_torch'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_torch'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_torch'], (randint(5, 23), randint(2, 15))),
-            Sprite_obj(self.sprite_parametrs['sprite_armor'], (10, 6)),
-            Sprite_obj(self.sprite_parametrs['sprite_kit'], (10, 7)),
+            Sprite_obj(self.sprite_parametrs['sprite_armor'], (7, 3.5)),
+            Sprite_obj(self.sprite_parametrs['sprite_kit'], (8.5, 8.5)),
 
         ]
+        self.a = self.list_object[-1::]
 
     @property
     def sprite_shot(self):
