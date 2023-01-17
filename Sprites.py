@@ -281,6 +281,25 @@ class Sprites:
                 'side': 30,
                 'obj_action': []
             },
+            'sprite_boss': {
+                'sprite': [pygame.image.load(f'resources/sprites/boss/static/{i}.png').convert_alpha() for i in range(57)],
+                'viewing_angles': True,
+                'shift': 0.0,
+                'scale': (1.1, 1.1),
+                'animation': deque(
+                    [pygame.image.load(f'resources/sprites/boss/animation/{i}.png').convert_alpha()
+                     for i in range(6)]),
+                'animation_dist': 300,
+                'animation_speed': 15,
+                'blocked': True,
+                'death_animation': deque([pygame.image.load(f'resources/sprites/boss/death/{i}.png').convert_alpha()
+                                          for i in range(8)]),
+                'is_dead': None,
+                'dead_shift': 0.6,
+                'flag': 'npc',
+                'side': 30,
+                'obj_action': []
+            },
         }
 
         self.list_object = [
@@ -322,6 +341,7 @@ class Sprites:
             Sprite_obj(self.sprite_parametrs['sprite_uncle'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_uncle'], (randint(5, 23), randint(2, 15))),
             Sprite_obj(self.sprite_parametrs['sprite_uncle'], (randint(5, 23), randint(2, 15))),
+            Sprite_obj(self.sprite_parametrs['sprite_boss'], (randint(5, 23), randint(2, 15))),
 
 
             # static sprite

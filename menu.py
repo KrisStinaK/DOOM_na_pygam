@@ -386,6 +386,7 @@ class Menu:
                     exit()
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     running = False
+                    self.swetch_scene(self.load_level)
 
 
             sc.blit(image, (0, 0))
