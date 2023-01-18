@@ -43,6 +43,7 @@ class Menu:
         self.F_aptechka = True
         self.F_armor = True
         self.F_map = 0
+        self.map_flag = False
 
     def draw(self, sc):
         sc.fill((56, 34, 32))
@@ -84,6 +85,7 @@ class Menu:
         text9 = font.render('"Мышь"        управление обзора', True, WHITE)
         textx = font.render('"1, 2, 3"        смена оружия', True, WHITE)
         textx1 = font.render('"R"        перезарядка', True, WHITE)
+        textx2 = font.render('"Y"        Открыть-закрыть мини карту', True, WHITE)
         running = True
         while running:
             for event in pygame.event.get():
@@ -105,6 +107,7 @@ class Menu:
             sc.blit(text9, (WIDTH // 2, 350))
             sc.blit(textx, (WIDTH // 2, 400))
             sc.blit(textx1, (WIDTH // 2, 450))
+            sc.blit(textx2, (WIDTH // 2 - 400, 500))
             pygame.display.flip()
 
     def load_level(self):
@@ -382,13 +385,8 @@ class Menu:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                     exit()
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                    running = False
-                    self.swetch_scene(self.load_level)
-
-
             sc.blit(image, (0, 0))
             sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
             sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
@@ -405,11 +403,8 @@ class Menu:
         running = True
         while running:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                     exit()
-                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                    running = False
-                    self.swetch_scene(self.load_level)
             sc.blit(image, (0, 0))
             sc.blit(text, (WIDTH // 2 - 200, HEIGHT // 2))
             sc.blit(text2, (WIDTH // 2 - 400, HEIGHT // 2 + 100))
@@ -439,6 +434,11 @@ class Menu:
                     drawing.weapon = 3
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
                     drawing.count_ammo = 15
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_y:
+                    if self.map_flag:
+                        self.map_flag = False
+                    else:
+                        self.map_flag = True
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1 and not player.shot:
                         player.shot = True
@@ -490,7 +490,8 @@ class Menu:
             walls, wall_shot = ray_casting_walls(player, drawing.textures)
             drawing.world(walls + [ob.obj_locate(player) for ob in sprites.list_object])
             drawing.fps(clock)
-            drawing.mini_map(player)
+            if self.map_flag:
+                drawing.mini_map(player)
             drawing.player_weapon([wall_shot, sprites.sprite_shot])
             interaction.interaction_objects()
             interaction.npc_action()
